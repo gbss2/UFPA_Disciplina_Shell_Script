@@ -13,9 +13,6 @@ Um servidor é um dos componentes de um modelo de computação distribuída deno
 <img src="./IMG/client_server.png" width="500"/>
 </p>
 
-
-
-
 As principais vantagens da arquitetura cliente/servidor são:
 
 1) Todos os recursos são centralizados, dessa forma, o servidor é capaz gerenciar os recursos que são comuns à todos os usuários. (Por exemplo, evitando problemas de redundância ou conflito de dados).
@@ -37,7 +34,7 @@ Dentre as desvantagens estão:
 4) Se um cliente gera alto tráfego de rede ou consome muitos recursos, os demais clientes podem sofrer com alta latência (atraso na resposta).
 
 <p align="center">
-<img src="C:\Users\jwojw\Dropbox\Scripts\yed\hpc.png">
+<img src="./IMG/hpc.png">
 </p>
 
 
@@ -54,6 +51,8 @@ Para executar um programa, iremos utilizar um interpretador correspondente à li
 A receita dos passos (ou instruções) que o computador deve seguir é denominada algoritmo. Em algumas situações, os algoritmos são praticamente indistinguíveis do código do programa, em outras, especialmente em programas complexos, é recomendado escrever um algoritmo antes de tentar implementá-lo. Isso porque a linguagem de algoritmos costuma ser mais simples, compacta e próxima da linguagem humana, além disso, algoritmos são portáveis, podendo ser implementados (ou transcritos) em diferentes linguagens de programação.
 
 Um exemplo de algoritmo:
+
+
 
 
 
