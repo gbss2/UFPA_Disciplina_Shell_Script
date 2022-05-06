@@ -10,7 +10,7 @@ As atividades práticas serão, preferencialmente, executadas no servidor Darwin
 Um servidor é um dos componentes de um modelo de computação distribuída denominado cliente/servidor. Esse modelo baseia-se na distribuição de funções entre dois tipos de processos independentes: o servidor e o cliente. O cliente é qualquer processo que requisita um serviço ao servidor, sendo este último o responsável por ofertar e executar o processo. Cliente e servidor podem residir em uma mesma máquina ou em diferentes computadores conectados através de uma rede. Dessa forma, uma aplicação ou usuário cliente envia uma mensagem ao servidor através da rede (local ou internet) requisitando ao servidor que execute uma determinada tarefa, dessa forma, os dados são processados no servidor e apenas os resultados são retornados ao cliente.
 
 <p align="center">
-<img src="C:\Users\jwojw\Dropbox\Scripts\yed\client_server.png">
+<img src="C:\Users\jwojw\Dropbox\Scripts\yed\client_server.png" width="500">
 </p>
 
 As principais vantagens da arquitetura cliente/servidor são:
