@@ -87,9 +87,9 @@ Atua como uma interface entre o usuário e o kernel. A cada conexão de um usuá
 
 O shell pode ser customizado pelo usuário e existem diferentes versões de shell, sendo uma das mais populares o **_BASH_** (Bourne-Again Shell).
 
-> Um dos recursos disponibilizados pelo Shell é o de autocompletar. Através desse recurso, ao iniciar a digitação do nome de um programa, arquivo ou diretório e digitar a tecla **_TAB_**, o Shell irá completar o nome automaticamente. Nos casos onde houver mais de uma opção disponível para autocompletar, apertar a tecla **TAB** duas vezes imprimir todos os nomes que correspondem à sequência digitada.
+> Um dos recursos disponibilizados pelo Shell é o de autocompletar. Através desse recurso, ao iniciar a digitação do nome de um programa, arquivo ou diretório e digitar a tecla `TAB`, o Shell irá completar o nome automaticamente. Nos casos onde houver mais de uma opção disponível para autocompletar, apertar a tecla `TAB` duas vezes imprimir todos os nomes que correspondem à sequência digitada.
 
-> Outro recurso do Shell é o histórico de comandos (**_History_**), através deste recurso o Shell armazena os comandos executados, sendo possível acessá-los novamente através das setas para cima e para baixo, através do comando **_history_** ou consultando o arquivo .bash_history.
+> Outro recurso do Shell é o histórico de comandos (**_History_**), através deste recurso o Shell armazena os comandos executados, sendo possível acessá-los novamente através das setas para cima e para baixo, através do comando `history` ou consultando o arquivo .bash_history.
 
 > Boa parte dos programas de bioinformática são executados através do Shell ou **_prompt de comando_**.
 
@@ -122,7 +122,7 @@ usage: ssh [-1246AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
 
 ### Acesso ao servidor
 
-> Os passos (1 a 4) são necessários para os usuários de sistemas operacionais Mac OS e GNU/Linux ou usuários do Windows usando os aplicativos **Git Bash** e **Bash for Windows**. Usuários do Windows usando os programas **Putty** e do **Bitvise SSH** serão automaticamente redirecionados para o Shell do servidor remoto após o login pela interface gráfica.
+> Os passos (1 a 3) são necessários para os usuários de sistemas operacionais Mac OS e GNU/Linux ou usuários do Windows usando os aplicativos **Git Bash** e **Bash for Windows**. Usuários do Windows usando os programas **Putty** e do **Bitvise SSH** serão automaticamente redirecionados para o Shell do servidor remoto após o login pela interface gráfica.
 
 Para conectar ao Darwin, as seguintes etapas devem ser seguidas:
 
@@ -141,20 +141,98 @@ ssh giordano@@200.239.101.201
 
 > Caso você queira apagar o conteúdo digitado durante esta etapa, é possível utilizar o atalho `Ctrl` + `U` (não funciona em todos os terminais).
 
-3. Caso esta seja a primeira conexão entre o cliente e o servidor, uma mensagem de aviso aparecerá perguntando se você deseja adicionar 
-
-4. A
+3. Caso esta seja a primeira conexão entre o cliente e o servidor, uma mensagem de aviso aparecerá perguntando se você deseja prosseguir com a conexão. Digite `y` ou `yes` para prosseguir com a conexão.
 
 ![image](https://user-images.githubusercontent.com/17560094/167213536-1e576f9a-4fdf-49ce-b4de-809dee4492ac.png)
 
-![image](https://user-images.githubusercontent.com/17560094/167213629-b6f3bf1e-da6b-407d-9991-aa01748b9162.png)
+Então, você deverá receber uma mensagem indicando o sucesso da conexão e o **prompt de comando** do servidor estará liberado para receber comandos.
+
+![image](https://user-images.githubusercontent.com/17560094/167216749-03d7b5cc-0d35-48fc-9bf2-4f2a28a927b6.png)
+
+```bash
+[giordano@darwin:~]$
+```
+O prompt de comando indica o nome do usuário `giordano` e do servidor ou nó `darwin` ao qual o usuário se conectou. 
+
+> O caracter `$` indica que o shell está liberado para aceitar comandos. Dessa forma, toda vez que um comando for executado ele desaparecerá e só retornará quando a execução for finalizada.
+
+### Copiando arquivos do diretório de dados
+
+Uma vez que estamos conectados ao servidor, a primeira tarefa é checar se há algum arquivo na pasta local. Toda vez que você se conecta a um servidor, você será direcionado à uma pasta específica designada ao seu usuário `home folder`. Essa pasta terá o nome do seu usuário e estará contida em uma pasta contendo os `homes` de todos os usuário. A localização da pasta home será indicada por `/home/<username>/` (por ex. `/home/giordano/`).
+
+Para listar todo o conteúdo de um diretório podemos utilizar o comando `ls`:
+
+```bash
+$ ls
+```
+Ao executar esse comando, nenhum arquivo será mostrado uma vez que a pasta encontra-se vazia.
+
+Para preenchê-la vamos utilizar o comando `cp` para copiar os arquivos que estão depositados em uma outra pasta no servidor. Para tal, digite (ou copie) o comando a seguir (incluindo o ponto):
+
+```bash
+$ cp -r /data/2022_shell_script/unix_lesson/ .
+```
+> O comando `cp` é utilizado para copiar arquivos e diretórios. Ele requer que o usuário especifique a localização do item a ser copiado `/data/2022_shell_script/unix_lesson/` e o destino dele `.`. A opção `-r` é utilizada para garantir a cópia recursiva dos arquivos presentes na pasta a ser copiada, em geral, é utilizada quando se copia diretórios e os arquivos e subdiretórios contidos nele. A cópia simples de um arquivo não requer o parâmetro `-r`. Já o ponto `.` denota ao sistema a localização atual, ou seja, a pasta onde o usuário se encontra no momento.
+
+Após a utilização do comando `cp`, vamos verificar se os dados foram copiados adequadamente.
+
+```bash
+$ ls
+```
+Se foram copiados adequadamente, você deverá ver o nome da pasta `unix_lesson` escrita no terminal.
+
+> O comando `ls` significa "**l**i**s**t" e lista todo o conteúdo de um diretório.
+
+## Explorando o Shell
+
+Vamos explorar com maior detalhe o conteúdo da pasta `unix_lesson`. Para tal, devemos alterar o diretório onde estamos localizados e podemos realizar essa ação usando o comando `cd` que significa `change directory`.
+
+```bash
+$ cd unix_lesson
+```
+Note que há uma alteração no prompt de comando. O caracter `~` foi substituído pelo nome da pasta `unix_lesson`. Isso indica que houve êxito na mudança de diretório e que agora estamos dentro da pasta `unix_lesson`.
+
+Podemos novamente utilizar o comando `ls`para listar o conteúdo do diertório.
+
+```bash
+$ ls
+```
+Após a execução, você verá o seguinte conteúdo:
+
+```bash
+$ ls
+
+genomics_data  other  raw_fastq  README.txt  reference_data
+```
+### Argumentos
+
+Há cinco elementos listados pelo comando `ls`, entretanto, além do nome de cada um deles, não temos informações sobre o tipo, por exemplo se são arquivos ou pastas.
+
+Para ter mais informações sobre os elementos contidos na pasta podemos usar algumas opções do comando `ls`.
+
+```bash
+$ ls -F
+
+genomics_data/  other/  raw_fastq/  README.txt  reference_data/
+```
+Os elementos que possuem uma barra `/` ao final do nome são diretórios. Elementos com um asterisco `*` ao final do nome são programas. Se os nomes se mativerem sem nenhuma adição, são arquivos de texto comum.
+
+A opção `-l` possibilita obter
 
 
 
 
 
+
+
+
+---
 ### Bibliografia / Fontes
 
 Langtangen, H. P. (2016). A Primer on Scientific Programming with Python (5th edition 2016.). Springer Berlin Heidelberg : Imprint: Springer.
 
+*The materials used in this lesson were derived from work of members of the teaching team at the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.*
 
+* *The materials used in this lesson were derived from work that is Copyright © Data Carpentry (http://datacarpentry.org/). 
+All Data Carpentry instructional material is made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0).*
+* *Adapted from the lesson by Tracy Teal. Original contributors: Paul Wilson, Milad Fatenejad, Sasha Wood and Radhika Khetani for Software Carpentry (http://software-carpentry.org/)*
