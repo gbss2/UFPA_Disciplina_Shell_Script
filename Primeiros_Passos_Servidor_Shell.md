@@ -15,6 +15,9 @@ Um servidor é um dos componentes de um modelo de computação distribuída deno
 
 ![Diagrama Cliente-Servidor](C:\Users\jwojw\Dropbox\Scripts\yed\client_server.png)
 
+![Diagrama Cliente-Servidor](C:\Users\jwojw\OneDrive\Imagens\client_server.png)
+
+
 As principais vantagens da arquitetura cliente/servidor são:
 
 1) Todos os recursos são centralizados, dessa forma, o servidor é capaz gerenciar os recursos que são comuns à todos os usuários. (Por exemplo, evitando problemas de redundância ou conflito de dados).
