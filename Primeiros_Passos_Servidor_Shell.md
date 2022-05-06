@@ -15,7 +15,7 @@ Um servidor é um dos componentes de um modelo de computação distribuída deno
 
 ![Diagrama Cliente-Servidor](C:\Users\jwojw\Dropbox\Scripts\yed\client_server.png)
 
-![Diagrama Cliente-Servidor](C:\Users\jwojw\OneDrive\Imagens\client_server.png)
+![Diagrama Cliente-Servidor](C:/Users/jwojw/OneDrive/Imagens/client_server.png)
 
 
 As principais vantagens da arquitetura cliente/servidor são:
