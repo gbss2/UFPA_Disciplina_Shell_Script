@@ -181,6 +181,8 @@ $ ls
 ```
 Se foram copiados adequadamente, você deverá ver o nome da pasta `unix_lesson` escrita no terminal.
 
+![image](https://user-images.githubusercontent.com/17560094/167230229-0520570b-0e1e-4b7e-bd3e-d765fc0b6cf6.png)
+
 > O comando `ls` significa "**l**i**s**t" e lista todo o conteúdo de um diretório.
 
 ## Explorando o Shell
@@ -204,6 +206,8 @@ $ ls
 
 genomics_data  other  raw_fastq  README.txt  reference_data
 ```
+![image](https://user-images.githubusercontent.com/17560094/167230312-d3228128-3305-457a-9742-109ecbf4fccc.png)
+
 ### Argumentos
 
 Há cinco elementos listados pelo comando `ls`, entretanto, além do nome de cada um deles, não temos informações sobre o tipo, por exemplo se são arquivos ou pastas.
@@ -215,16 +219,89 @@ $ ls -F
 
 genomics_data/  other/  raw_fastq/  README.txt  reference_data/
 ```
+![image](https://user-images.githubusercontent.com/17560094/167230396-25f189f4-8c29-4f09-bfdb-b1831c20615d.png)
+
 Os elementos que possuem uma barra `/` ao final do nome são diretórios. Elementos com um asterisco `*` ao final do nome são programas. Se os nomes se mativerem sem nenhuma adição, são arquivos de texto comum.
 
-A opção `-l` possibilita obter
+A opção `-l` correspondente ao formato de listagem "longo" possibilita obter informações ainda mais detalhadas dos elementos presentes na pasta.
 
+```bash
+$ ls -l
+```
 
+```
+total 20
+drwxr-xr-x 2 giordano giordano 4096 May  6 20:40 genomics_data
+drwxr-xr-x 2 giordano giordano 4096 May  6 20:40 other
+drwxr-xr-x 2 giordano giordano 4096 May  6 20:40 raw_fastq
+-rw-r--r-- 1 giordano giordano  377 May  6 20:40 README.txt
+drwxr-xr-x 2 giordano giordano 4096 May  6 20:40 reference_data
+```
+![image](https://user-images.githubusercontent.com/17560094/167230451-47bff9af-7394-4769-945d-7887c179f67c.png)
 
+Cada linha do ouput representa um arquivo ou diretório. As linhas correspondentes aos diretórios são iniciadas com um `d`. 
 
+É possível combinar vários argumentos em um mesmo comando, por exemplo, é possível usar os parâmetros `-l` e `-F` conjunto da seguinte maneira:
 
+```bash
+ls -lF
+```
 
+Qual é a alteração ocorrida no output?
 
+<details>
+  <summary><i>Explicação</i></summary>
+  <P>Note que os diretórios agora contém uma barra <code>/</code> ao final dos nomes.</P>
+  ![image](https://user-images.githubusercontent.com/17560094/167230517-c3954358-e632-468c-8906-7290b374cfc9.png)
+</details>
+
+> Todos os comandos são essencialmente programas habilitados a realizar uma tarefa específica.
+
+A maior parte dos programas pode receber argumentos adicionais para controlar o comportamento de execução, alguns deles terão como **_inputs_** nomes de arquivos ou diretórios. Para saber quais são os argumentos apropriados ou possíveis para um programa podemos recorrer aos manuais. A maior parte dos comandos usuais do Shell possuem um manual que pode ser acessado através do comanndo `man`. Vamos testá-lo com o comando `ls`:
+
+```bash
+$ man ls
+```
+A execução desta instrução irá abrir o manual do comando `ls` e você perderá, momentaneamente, o acesso ao prompt de comando. Você será redirecionado à página _buffer_, onde você deverá navegar através de teclas de atalho do teclado:
+
+* tecla de 'espaço' para avançar
+* tecla `b` para retornar
+* Setas de para `cima` e para `baixo` para avançar e retornar, respectivamente.
+
+> Para sair da página do manual do comando `ls` e retornar ao prompt de comando você deve pressionar a tecla `q` (_quit_).
+
+***
+
+** Exercício 1**
+
+* Abra a página de manual do comando `find`. Verifique algumas das informações. 
+    * Você acredita que é possível decorar todas as informações contidas no manual? 
+    * Você acredita que esse formato de informação é útil para você?
+    
+* Saia do manual de `man` e retorne ao prompt de comando.  
+
+> Comandos de Shell podem ser extremamente complicados e é impossível saber como usar todas as opções de cor. Então, provavelmente, você terá que recorrer muitas vezes ao manual ou a ajuda do programa.
+
+> O manual das ferramentas também podem ser acessados online. Aprenda a utilizar as buscas na internet para auxiliá-lo no uso dos programas. Além de obter informações sobre os argumentos, você também pode encontrar bons exemplos na internet; ***Google é seu amigo.***
+
+***
+
+## A estrutura do sistema de arquivos do Unix
+
+Vamos aprender a nos mover um pouco através dos diretórios do servidor. Que tal irmos ao diretório `raw_fastq` e investigar o que há dentro dele?
+
+```bash
+$ cd raw_fastq/
+
+$ ls -l
+```
+![image](https://user-images.githubusercontent.com/17560094/167231665-be66f9cc-3944-4da6-b28f-2ff1c9e26ed3.png)
+
+Uma vez que aprendemos como acessar alguns diretórios através do comando `cd`, seria interessante aprendermos a nos localizar em relação aos demais diretórios do servidor.
+
+### O diretório raiz "root"
+
+Assim como qualquer outro computador, a estrutura de arquivos no GNU/Linux é hierárquica, como uma árvore que tem como sua raiz o diretório `"/"`
 
 ---
 ### Bibliografia / Fontes
