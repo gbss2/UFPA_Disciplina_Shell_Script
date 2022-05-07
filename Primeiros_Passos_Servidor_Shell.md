@@ -247,7 +247,7 @@ Cada linha do ouput representa um arquivo ou diretório. As linhas correspondent
 ls -lF
 ```
 
-Qual é a alteração ocorrida no output?
+Qual é a alteração ocorrida no _output_?
 
 <details>
   <summary><i>Explicação</i></summary>
@@ -334,7 +334,7 @@ Qual é o seu diretório atual?
 $ pwd
 ```
 
-Isso deve retornar uma cadeia de diretórios iniciada com o _root_. Esse é o endereço completo do seu diretório `home`, também conhecido como caminho completo ou "**full path**". O caminho completo refere-se ao fato de que o endereço inicia-se na pasta _root_ e que você sabe onde está em relação à pasta raiz..**
+Isso deve retornar uma cadeia de diretórios iniciada com o _root_. Esse é o endereço completo do seu diretório `home`, também conhecido como caminho absoluto ou "**full path**". O caminho absoluto refere-se ao fato de que o endereço inicia-se na pasta _root_ e que você sabe onde está em relação à pasta raiz..**
 
 Verifique o seu prompt de comando, ele mostra qual é o nome do diretório atual (seu nome do usuário)?
 
@@ -342,7 +342,7 @@ Verifique o seu prompt de comando, ele mostra qual é o nome do diretório atual
 
 O que isso significa?
 
-*Isso ocorre porque `~` corresponde ao caminho completo até o diretório base do usuário.*
+*Isso ocorre porque `~` corresponde ao caminho absoluto até o diretório base do usuário.*
 
 Então podemos digitar apenas `~` ao invés de `/home/<username>/`?
 
@@ -371,7 +371,7 @@ E se quisermos voltar para cima, sair para um nível acima do diretório `raw_fa
 
 Você consegue pensar em uma alternativa?
 
-*Você pode usar o caminho completo para a pasta unix_lesson!*
+*Você pode usar o caminho absoluto para a pasta unix_lesson!*
 
 ```bash
 $ cd ~/unix_lesson
@@ -423,7 +423,7 @@ $ ls Mov10_oe_1<tab>
 
 **A tecla `TAB` é sua amiga!** Ela ajuda a evitar erros de ortografia e acelera o processo de digitação do comando completo. Recomendamos que você use isso ao trabalhar na linha de comando.
 
-### Caminho relativo
+### Caminho relativo **_relative paths_**
 
 Falamos sobre caminhos **absolutos** até agora, mas existe uma maneira de especificar caminhos para pastas e arquivos sem ter que se preocupar com o diretório raiz. E você já usou isso antes quando estávamos aprendendo sobre o comando `cd`.
 
@@ -433,10 +433,190 @@ Vamos mudar os diretórios de volta para o nosso diretório `home`, e mais uma v
 $ cd
 $ cd unix_lesson/raw_fastq
 ```
+Desta vez não estamos usando o `~/` antes do `unix_lesson`. Neste caso, estamos usando um caminho relativo, relativo à nossa localização atual - onde sabemos que `unix_lesson` é uma pasta filha em nossa pasta pessoal, e a pasta `raw_fastq` está dentro de `unix_lesson`.
+
+> Anteriormente havíamos utilizado o seguinte comando:
+> ```bash
+> $ cd ~/unix_lesson/raw_fastq
+> ```
+
+Há também um atalho útil para o caminho relativo para um diretório pai, o uso de 2 pontos `..`. Digamos que queremos passar da pasta `raw_fastq` para sua pasta pai.
+
+```bash
+cd ..
+```
+Agora você deve estar no diretório `unix_lesson` (verifique o prompt de comando ou execute `pwd`).
+
+> Você aprenderá um pouco mais sobre o atalho `..` mais tarde. Você consegue pensar em um caso no qual esse atalho não funcionará?
+>
+> <details>
+> <summary>Resposta</summary>
+> <P>Quando você está no diretório raiz, já que não há pai para o diretório raiz!</P>
+> </details>
+
+Ao usar caminhos relativos, você pode precisar verificar quais são as ramificações abaixo da pasta em que você está. Existe um comando muito útil (`tree`) que pode ajudá-lo a ver a estrutura de qualquer diretório.
+
+```bash
+$ tree
+```
+
+Se você estiver ciente da estrutura de diretórios, poderá encadear uma longa lista de diretórios usando caminhos **relativos** ou **absolutos**.
+
+#### Resumo de caminhos absolutos versus caminhos relativos
+
+**Um caminho absoluto sempre começa com um `/`, um caminho relativo não.**
+
+Um caminho relativo é como obter direções de alguém na rua. Alguém diz para você "virar à direita na placa de Pare e depois virar à esquerda na Rua Um". Isso funciona muito bem se você estiver no local, mas não tão bem se você estiver tentando explicar a alguém como chegar lá de a partir de outro local. Um caminho absoluto é como as coordenadas de GPS. Ele diz exatamente onde algo está, não importa onde você esteja agora.
+
+Normalmente, você pode usar um caminho completo ou um caminho relativo, dependendo do que for mais conveniente. Se estivermos no diretório inicial, é mais conveniente inserir apenas o caminho relativo, pois envolve menos digitação.
+
+Com o tempo, ficará mais fácil para você manter uma nota mental da estrutura dos diretórios que você está usando e como navegar rapidamente entre eles.
+
+## Copiando, criando, movendo e removendo dados
+
+Agora já sabemos como nos mover dentro da estrutura de diretórios usando a linha de comando. Mas e se quisermos copiar arquivos, movê-los de um diretório para outro, ou renomeá-los?
+
+Vamos para o diretório `raw_fastq`, que contém alguns arquivos fastq que são a saída do sequenciamento.
+
+```bash
+cd ~/unix_lesson/raw_fastq
+```
+> Esses arquivos são chamados de **raw data** ou **dados brutos**, pois não foram alterados desde a sua criação.
+
+### Copiando
+
+Vamos usar o comando _copy_ (`cp`) para fazer uma cópia do arquivo `Mov10_oe_1.subset.fq` presente nesta pasta e nomear o arquivo copiado de `Mov10_oe_1.subset-copy.fq`. O comando copy tem a seguinte sintaxe:
+
+`cp caminho/para/item-sendo-copiado caminho/para/novo-item-copiado`
+
+Neste caso, como os arquivos estão em nosso diretório atual, só precisamos especificar o nome do arquivo que está sendo copiado, seguido do nome que desejamos dar ao arquivo cópia.
+
+```bash
+$ cp Mov10_oe_1.subset.fq Mov10_oe_1.subset-copy.fq
+
+$ ls -l
+```
+O comando `copy` também pode ser usado para copiar diretórios inteiros, mas o argumento `-r` deve ser adicionado após o comando `cp`. O `-r` significa copiar recursivamente tudo do diretório e seus subdiretórios." [Nós o usamos anteriormente quando copiamos o diretório `unix_lesson` para nossos diretórios pessoais]().
+
+### Criando
+
+Agora, vamos criar um diretório chamado `fastq_backup` e mover a cópia do arquivo fastq para esse novo diretório.
+
+O comando `mkdir` é usado para criar um diretório, sintaxe: `mkdir nome-da-pasta-a-ser-criada`.
+
+```bash
+$ mkdir fastq_backup
+```
+
+> **IMPORTANTE** Nomes de arquivos/diretórios/programas com espaços não funcionam bem no GNU/Linux, logo use caracteres como hífens ou sublinhados. Usar sublinhados em vez de espaços é chamado de "snake_case". Alternativamente, algumas pessoas optam por pular espaços e apenas capitalizar a primeira letra de cada nova palavra (ou seja, MyNewFile). Essa técnica alternativa é chamada de "CamelCase".
 
 
+### Movendo
 
+Agora podemos mover a cópia do nosso arquivo fastq para o novo diretório. Para tal, utilizamos o comando move, `mv`, sintaxe: 
 
+`mv caminho/para/item-sendo-movido caminho/para/destino`
+
+Nesse caso, podemos usar caminhos relativos e apenas digitar o nome do arquivo e da pasta.
+
+```bash
+$ mv  Mov10_oe_1.subset-copy.fq  fastq_backup
+```
+
+Vamos verificar se o comando `mv` funcionou como planejado:
+
+```bash
+$ ls -l fastq_backup
+```
+
+### Renomeando
+
+O comando `mv` tem uma segunda funcionalidade, a qual você pode usar para renomear arquivos. A sintaxe é idêntica a quando usamos `mv` para mover, mas desta vez em vez de passar um diretório como destino, apenas passamos um novo nome como destino.
+
+Vamos experimentar esta funcionalidade!
+
+O nome Mov10_oe_1.subset-copy.fq não é muito informativo, queremos ter certeza de que temos a palavra "backup" nele para não excluí-lo acidentalmente.
+
+```bash
+$ cd fastq_backup
+
+$ mv  Mov10_oe_1.subset-copy.fq   Mov10_oe_1.subset-backup.fq
+
+$ ls
+```
+
+> **Dica** - Você pode usar `mv` para mover um arquivo e renomeá-lo ao mesmo tempo!
+
+**Observações importantes sobre `mv`**:
+* Ao usar `mv`, o shell **não** perguntará se você tem certeza de que deseja "substituir o arquivo existente" ou mensagem similar, a menos que você use a opção `-i`.
+* Uma vez substituído, não é possível recuperar o arquivo substituído!
+
+### Removendo
+
+Descobrimos que não precisamos criar backups de nossos arquivos fastq manualmente, pois backups foram gerados por nosso colaborador, dessa forma, com o intuito de economizar espaço no servidor, vamos excluir o conteúdo da pasta `fastq-backup` e a própria pasta.
+
+```bash
+$ rm  Mov10_oe_1.subset-backup.fq
+```
+
+**Considerações importantes sobre `rm`**
+* `rm` remove/exclui permanentemente o arquivo/pasta.
+* Não há o conceito de "Lixeira" na linha de comando. Quando você usa `rm` para remover/excluir, eles realmente desaparecem.
+* **Tenha muito cuidado com este comando!**
+* Você pode usar o argumento `-i` se quiser perguntar antes de remover, `rm -i <nome do arquivo>`.
+
+Vamos excluir a pasta fastq_backup. Primeiro, teremos que navegar até o diretório pai pois não podemos excluir a pasta em que estamos atualmente ou usando.
+
+```bash
+$ cd ..
+
+$ rm  fastq_backup 
+```
+O comando funcionou? Você obteve um erro?
+
+<details>
+  <summary><i>Explicação</i></summary>
+  <P>Por padrão, <code>rm</code> **NÃO** irá deletar diretórios, mas você pode usar a opção <code>-r</code> se estiver certo que deseja apagar o diretório e todo o seu conteúdo. Como precaução, utilize este comando com a opção <code>-i</code>.</P>
+</details><br>
+
+```bash
+$ rm -ri fastq_backup
+```
+
+- `-r`: recursivo, opção usada comumente quando se trabalha com diretórios, por exemplo, com `cp`. 
+- `-i`: prompt antes de cada remoção.
+
+***
+
+**Exercício 2**
+
+1. Crie uma nova pasta em `unix_lesson` chamada `selected_fastq`
+2. Copie os arquivos `Irrel_kd_2.subset.fq` e `Mov10_oe_2.subset.fq` de `raw_fastq` para a pasta `~/unix_lesson/selected_fastq`
+3. Renomeie a pasta `selected_fastq` e a nomeie de `exercise1`
+
+***
+
+## Comandos
+
+```
+cd          # altera o diretório
+ls          # lista o conteúdo
+man         # manual para o comando
+pwd         # verifica o diretório de trabalho atual
+tree        # imprime a estrutura de arquivos do diretórioa
+cp          # copia
+mkdir       # cria um novo diretório
+mv          # move ou renomeia arquivos e diretórios 
+rm          # remove/exclui
+```
+
+## Atalhos
+
+```
+~           # diretório inicial (usuário)
+.           # diretório atual
+..          # diretório pai
+```
 
 ---
 ### Bibliografia / Fontes
