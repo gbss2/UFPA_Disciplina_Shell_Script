@@ -301,7 +301,142 @@ Uma vez que aprendemos como acessar alguns diretórios através do comando `cd`,
 
 ### O diretório raiz "root"
 
-Assim como qualquer outro computador, a estrutura de arquivos no GNU/Linux é hierárquica, como uma árvore que tem como sua raiz o diretório `"/"`
+Assim como qualquer outro computador, a estrutura de arquivos no GNU/Linux é hierárquica, o diretório raiz `"/"` é denominado `root` e é o ponto de início de uma estrutura que se assemelha a uma árvore invertida.
+
+| ![Filesystem](https://lcom.static.linuxfound.org/sites/lcom/files/standard-unix-filesystem-hierarchy.png) |
+|:--:|
+| <b>Estrutura do sistema de arquivos. Fonte: Linux.com - The Linux Filesystem Explained</b>|
+
+> O diretório root é representado apenas pela barra `/`. 
+
+### Caminhos `Paths`
+
+Agora vamos aprender um pouco mais sobre os "endereços" dos diretórios, conhecidos como **_path_** e nos movimentar pelo sistema de arquivos.
+
+Primeiro vamos checar em que diretório estamos. O prompt de comando indica em que diretório estamos, mas não nos fornece informação sobre onde está a pasta `raw_fastq` em relação à nossa pasta `home` ou ao diretório `"/"`.
+
+O comando para checar qual é a nossa atual localização é o `pwd`, este não necessita de argumentos adicionais e nos retorna o caminho do seu direório atual, ou em inglês, do **p**resent **w**orking **d**irectory.
+
+```bash
+$ pwd
+```
+No resultado retornado, cada pasta é separada das pastas superiores e inferiores hierarquicamente por uma `"/"` que se incia no diretório raiz (_root_). Agora você é capaz de se localizar em relação ao diretório **_root_**.
+
+Mas e qual é o seu diretório pré-designado? Não importa em qual pasta você esteja no momento, ao digitar apenas o comando `cd` você será redirecionado ao seu diretório `home`. 
+
+```bash
+$ cd
+```
+
+Qual é o seu diretório atual?
+
+```bash
+$ pwd
+```
+
+Isso deve retornar uma cadeia de diretórios iniciada com o _root_. Esse é o endereço completo do seu diretório `home`, também conhecido como caminho completo ou "**full path**". O caminho completo refere-se ao fato de que o endereço inicia-se na pasta _root_ e que você sabe onde está em relação à pasta raiz..**
+
+Verifique o seu prompt de comando, ele mostra qual é o nome do diretório atual (seu nome do usuário)?
+
+* Não, ele não mostra. Ao invés disso, aparece o símbolo `~`. *
+
+O que isso significa?
+
+*Isso ocorre porque `~` corresponde ao caminho completo até o diretório base do usuário.*
+
+Então podemos digitar apenas `~` ao invés de `/home/<username>/`?
+
+*Sim, podemos!*
+
+#### Usando _Paths_ com comandos
+
+Você pode fazer muito mais com a ideia de juntar diretórios *pai/filho*. Digamos que queremos ver o conteúdo da pasta `raw_fastq`, mas a partir do diretório atual (inicial). Podemos usar o comando `list` e digitar o caminho para a pasta que queremos examinar!
+
+```bash
+$ cd
+
+$ ls -l ~/unix_lesson/raw_fastq
+```
+E se quisermos mudar o diretório de `~` (_home_) para `raw_fastq` em uma única etapa?
+
+```bash
+$ cd ~/unix_lesson/raw_fastq
+```
+
+Note que foi possível mover dois níveis de diretório com apenas um comando.
+
+E se quisermos voltar para cima, sair para um nível acima do diretório `raw_fastq`? Podemos apenas digitar `cd unix_lesson`? Experimente e veja o que acontece.
+
+*Infelizmente, isso não funcionará porque quando você diz `cd unix_lesson`, o shell está procurando por uma pasta chamada `unix_lesson` dentro do seu diretório atual, ou seja, `raw_fastq`.*
+
+Você consegue pensar em uma alternativa?
+
+*Você pode usar o caminho completo para a pasta unix_lesson!*
+
+```bash
+$ cd ~/unix_lesson
+```
+
+****
+
+**Exercícios**
+
+1. Mova-se até o seu diretório base (_home_).
+2. Agora, liste o conteúdo do diretório `reference_data` que está dentro da pasta `unix_lesson`.
+
+****
+
+#### A tecla `TAB` (autocompletar)
+
+Digitar nomes de diretórios completos pode ser demorado e propenso a erros. Uma maneira de evitar isso é usar o **autocompletar**. A tecla `tab` está localizada no lado esquerdo do seu teclado, logo acima da tecla `caps lock`. Quando você começa a digitar os primeiros caracteres de um nome de diretório e, em seguida, pressiona a tecla `tab`, o Shell tentará preencher o restante do nome do diretório.
+
+Por exemplo, primeiro digite `cd` para voltar ao `home`, depois digite `cd uni`, e a seguir pressione a tecla `tab`:
+
+```bash
+$ cd
+$ cd uni<tab>
+```
+
+O shell preencherá o restante do nome do diretório para `unix_lesson`.
+
+Agora, vamos para `raw_fastq`, digite `ls Mov10_oe_`, e a seguir pressione a tecla `tab` uma vez:
+
+```bash
+$ cd raw_fastq/
+$ ls Mov10_oe_<tab>
+```
+**Nada acontece!!**
+
+A razão é que existem vários arquivos no diretório `raw_fastq` que começam com `Mov10_oe_`. Dessa forma, o shell não sabe qual usar para preencher. Quando você pressionar `tab` uma segunda vez, o shell listará todas as opções possíveis.
+
+```bash
+$ ls Mov10_oe_<tab><tab>
+```
+
+Agora você pode selecionar um arquivo de interesse, digitando o número `1` e pressionando `tab` novamente para preencher o nome completo do arquivo.
+
+```bash
+$ ls Mov10_oe_1<tab>
+```
+
+> **IMPORTANTE:** o preenchimento a partir do autocompletar `tab` também pode preencher nomes de comandos. Por exemplo, digite `e<tab><tab>`. Você verá o nome de cada comando que começa com um `e`. Um deles é o `echo`. Se você digitar `ech<tab>`, verá que o autocompletar funciona.
+
+**A tecla `TAB` é sua amiga!** Ela ajuda a evitar erros de ortografia e acelera o processo de digitação do comando completo. Recomendamos que você use isso ao trabalhar na linha de comando.
+
+### Caminho relativo
+
+Falamos sobre caminhos **absolutos** até agora, mas existe uma maneira de especificar caminhos para pastas e arquivos sem ter que se preocupar com o diretório raiz. E você já usou isso antes quando estávamos aprendendo sobre o comando `cd`.
+
+Vamos mudar os diretórios de volta para o nosso diretório `home`, e mais uma vez mudar os diretórios de `~` (_home_) para `raw_fastq` em uma única etapa. (*Sinta-se à vontade para usar o preenchimento de guias para concluir seu caminho!*)
+
+```bash
+$ cd
+$ cd unix_lesson/raw_fastq
+```
+
+
+
+
 
 ---
 ### Bibliografia / Fontes
