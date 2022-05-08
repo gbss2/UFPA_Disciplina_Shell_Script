@@ -129,8 +129,10 @@ Para conectar ao Darwin, as seguintes etapas devem ser seguidas:
 1. Digite o comando `ssh` no prompt de comando seguido por um espaço em branco e então digite o nome de usuário (_username_) seguido por `@200.239.101.201`. Não há espaços entre o nome de usuário e o símbolo de arroba `@`.
 
 ```bash
-ssh giordano@@200.239.101.201
+ssh <nome_usuário>@200.239.101.201
 ```
+
+Exemplo de uso para o usuário giordano:
 ![image](https://user-images.githubusercontent.com/17560094/167214224-d47efa6c-ab54-4188-bbc2-cc20b06a5707.png)
 
 2. Pressione `Enter` ou `Return` e você será requisitado a inserir a sua senha.
@@ -210,7 +212,7 @@ genomics_data  other  raw_fastq  README.txt  reference_data
 
 ### Argumentos
 
-Há cinco elementos listados pelo comando `ls`, entretanto, além do nome de cada um deles, não temos informações sobre o tipo, por exemplo se são arquivos ou pastas.
+Há cinco elementos listados pelo comando `ls`, entretanto, além do nome de cada um deles, não temos informações sobre o tipo, por exemplo, se são arquivos ou pastas.
 
 Para ter mais informações sobre os elementos contidos na pasta podemos usar algumas opções do comando `ls`.
 
@@ -257,7 +259,7 @@ Qual é a alteração ocorrida no _output_?
 
 > Todos os comandos são essencialmente programas habilitados a realizar uma tarefa específica.
 
-A maior parte dos programas pode receber argumentos adicionais para controlar o comportamento de execução, alguns deles terão como **_inputs_** nomes de arquivos ou diretórios. Para saber quais são os argumentos apropriados ou possíveis para um programa podemos recorrer aos manuais. A maior parte dos comandos usuais do Shell possuem um manual que pode ser acessado através do comanndo `man`. Vamos testá-lo com o comando `ls`:
+A maior parte dos programas pode receber argumentos adicionais para controlar o comportamento de execução, alguns deles terão como **_inputs_** nomes de arquivos ou diretórios. Para saber quais são os argumentos apropriados ou possíveis para um programa podemos recorrer aos manuais. A maior parte dos comandos usuais do Shell possuem um manual que pode ser acessado através do comando `man`. Vamos testá-lo com o comando `ls`:
 
 ```bash
 $ man ls
@@ -268,11 +270,11 @@ A execução desta instrução irá abrir o manual do comando `ls` e você perde
 * tecla `b` para retornar
 * Setas de para `cima` e para `baixo` para avançar e retornar, respectivamente.
 
-> Para sair da página do manual do comando `ls` e retornar ao prompt de comando você deve pressionar a tecla `q` (_quit_).
+> Para sair da página do manual do comando `ls` e retornar ao prompt de comando, você deve pressionar a tecla `q` (_quit_).
 
 ***
 
-** Exercício 1**
+**Exercício 1**
 
 * Abra a página de manual do comando `find`. Verifique algumas das informações. 
     * Você acredita que é possível decorar todas as informações contidas no manual? 
@@ -379,7 +381,7 @@ $ cd ~/unix_lesson
 
 ****
 
-**Exercícios**
+**Exercício 2**
 
 1. Mova-se até o seu diretório base (_home_).
 2. Agora, liste o conteúdo do diretório `reference_data` que está dentro da pasta `unix_lesson`.
@@ -588,7 +590,7 @@ $ rm -ri fastq_backup
 
 ***
 
-**Exercício 2**
+**Exercício 3**
 
 1. Crie uma nova pasta em `unix_lesson` chamada `selected_fastq`
 2. Copie os arquivos `Irrel_kd_2.subset.fq` e `Mov10_oe_2.subset.fq` de `raw_fastq` para a pasta `~/unix_lesson/selected_fastq`
@@ -619,7 +621,15 @@ rm          # remove/exclui
 ```
 
 ---
-### Bibliografia / Fontes
+**Bibliografia / Fontes**
+
+BASH programming: https://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html 
+
+BASH for Genomics: https://angus.readthedocs.io/en/2016/GenomicsShell.html 
+
+GNU/Linux tutorials: https://www.debian.org/doc/manuals/debian-reference/ch01.en.html 
+
+Jargas, Aurelio Marinho. Shell Script Profissional. São Paulo : Novatec Editora, 2008.
 
 Langtangen, H. P. (2016). A Primer on Scientific Programming with Python (5th edition 2016.). Springer Berlin Heidelberg : Imprint: Springer.
 
