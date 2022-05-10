@@ -280,7 +280,7 @@ A execução desta instrução irá abrir o manual do comando `ls` e você perde
     * Você acredita que é possível decorar todas as informações contidas no manual? 
     * Você acredita que esse formato de informação é útil para você?
     
-* Saia do manual de `man` e retorne ao prompt de comando.  
+* Saia do manual de `find` e retorne ao prompt de comando.  
 
 > Comandos de Shell podem ser extremamente complicados e é impossível saber como usar todas as opções de cor. Então, provavelmente, você terá que recorrer muitas vezes ao manual ou a ajuda do programa.
 
