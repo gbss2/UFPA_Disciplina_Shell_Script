@@ -41,13 +41,13 @@ Dentre as desvantagens estão:
 <img src="./IMG/hpc.png">
 </p>
 
-Para processar dados de larga escala é necessário o uso de computadores ou grupos de computadores mais potentes que os computadores pessoais. O conjunto de servidores ligados através de uma rede rápida e atuando em conjunto é denominado **_cluster_** ou **_HPC_**. Cada computador integrando essa rede recebe o nome de nó (**_node_**). Os nós podem ter diferentes funções, por exemplo, existem os nós de conexão (**_login nodes_**) responsáveis por administrar as conexões e submissões de processo ao cluster, os nós de processamento (**_compute nodes_**) encarregados de processar os dados e os nós de armazenamento (**_storage_**) onde os dados são depositados e conservados. 
+Para processar dados de larga escala é necessário o uso de computadores ou grupos de computadores mais potentes que os computadores pessoais. O conjunto de servidores ligados através de uma rede rápida e atuando em conjunto é denominado **_cluster_** ou **_HPC_**. Cada computador integrando essa rede recebe o nome de nó (**_node_**). Os nós podem ter diferentes funções, por exemplo, existem os nós de conexão (**_login nodes_**) responsáveis por administrar as conexões e submissões de processos ao cluster, os nós de processamento (**_compute nodes_**) encarregados de processar os dados e os nós de armazenamento (**_storage_**) onde os dados são depositados e conservados. 
 
 ### Glossário de termos
 
 #### Código ou programa
 
-Lista de instruções consecutivas executadas em um computador. Código-fonte (_source code_) é o texto que constitui o programa (embora seja um arquivo de texto, a extensão ".txt" será substituída por aquela adequada à linguagem de programação utilizada, por ex., **Shell** = ".sh"; **Perl** = ".pl"; **Python** = ".py"; **R** = ".R").
+Lista de instruções consecutivas executadas em um computador. **Código-fonte** (**_source code_**) é o texto que constitui o programa (embora seja um arquivo de texto, a extensão ".txt" será substituída por aquela adequada à linguagem de programação utilizada, por ex., **Shell** = ".sh"; **Perl** = ".pl"; **Python** = ".py"; **R** = ".R").
 
 Para executar um programa, iremos utilizar o **_interpretador_** correspondente à linguagem utilizada. Esse interpretador será responsável por ler e executar a sequência de comandos contidas no arquivo executável - embora um programa possa conter um ou mais arquivos de código associados, apenas um será responsável por iniciar e coordenar a execução das instruções contidas no programa.
 
@@ -83,11 +83,11 @@ O **_Kernel_** é responsável pelo gerenciamento dos processos e realiza a aloc
 
 #### Shell
 
-Atua como uma interface entre o usuário e o kernel. A cada conexão de um usuário, o programa de acesso verifica as credenciais de acesso (geralmente, login e senha) e então inicia a interface por linha de comando (CLI). Após iniciado, o Shell é responsável por interpretar os comandos inseridos pelo usuário e providenciar para que sejam executados. Quando um comando é submetido ao shell, este não estará disponível a novos comandos até que a tarefa em execução termine e os resultados sejam apresentados no terminal.
+Atua como uma interface entre o usuário e o kernel. A cada conexão de um usuário, o programa de acesso verifica as credenciais de acesso (geralmente, login e senha) e então inicia a **interface por linha de comando** (**CLI**). Após iniciado, o Shell é responsável por interpretar os comandos inseridos pelo usuário e providenciar para que sejam executados. Quando um comando é submetido ao shell, este não estará disponível a novos comandos até que a tarefa em execução termine e os resultados sejam apresentados no terminal.
 
 O shell pode ser customizado pelo usuário e existem diferentes versões de shell, sendo uma das mais populares o **_BASH_** (Bourne-Again Shell).
 
-> Um dos recursos disponibilizados pelo Shell é o de autocompletar. Através desse recurso, ao iniciar a digitação do nome de um programa, arquivo ou diretório e digitar a tecla `TAB`, o Shell irá completar o nome automaticamente. Nos casos onde houver mais de uma opção disponível para autocompletar, apertar a tecla `TAB` duas vezes imprimir todos os nomes que correspondem à sequência digitada.
+> Um dos recursos disponibilizados pelo Shell é o de autocompletar. Através desse recurso, ao iniciar a digitação do nome de um programa, arquivo ou diretório e digitar a tecla `TAB`, o Shell irá completar o nome automaticamente. Nos casos onde houver mais de uma opção disponível para autocompletar, apertar a tecla `TAB` duas vezes imprimirá todos os nomes que correspondem à sequência digitada.
 
 > Outro recurso do Shell é o histórico de comandos (**_History_**), através deste recurso o Shell armazena os comandos executados, sendo possível acessá-los novamente através das setas para cima e para baixo, através do comando `history` ou consultando o arquivo .bash_history.
 
@@ -243,7 +243,7 @@ drwxr-xr-x 2 giordano giordano 4096 May  6 20:40 reference_data
 
 Cada linha do ouput representa um arquivo ou diretório. As linhas correspondentes aos diretórios são iniciadas com um `d`. 
 
-É possível combinar vários argumentos em um mesmo comando, por exemplo, é possível usar os parâmetros `-l` e `-F` conjunto da seguinte maneira:
+É possível combinar vários argumentos em um mesmo comando, por exemplo, é possível usar os parâmetros `-l` e `-F` em conjunto da seguinte maneira:
 
 ```bash
 ls -lF
@@ -268,7 +268,7 @@ A execução desta instrução irá abrir o manual do comando `ls` e você perde
 
 * tecla de 'espaço' para avançar
 * tecla `b` para retornar
-* Setas de para `cima` e para `baixo` para avançar e retornar, respectivamente.
+* Setas de para `baixo` e para `cima` para avançar e retornar, respectivamente.
 
 > Para sair da página do manual do comando `ls` e retornar ao prompt de comando, você deve pressionar a tecla `q` (_quit_).
 
@@ -336,11 +336,11 @@ Qual é o seu diretório atual?
 $ pwd
 ```
 
-Isso deve retornar uma cadeia de diretórios iniciada com o _root_. Esse é o endereço completo do seu diretório `home`, também conhecido como caminho absoluto ou "**full path**". O caminho absoluto refere-se ao fato de que o endereço inicia-se na pasta _root_ e que você sabe onde está em relação à pasta raiz..**
+Isso deve retornar uma cadeia de diretórios iniciada com o _root_. Esse é o endereço completo do seu diretório `home`, também conhecido como caminho absoluto ou "**full path**". O caminho absoluto refere-se ao fato de que o endereço inicia-se na pasta _root_ e que você sabe onde está em relação à pasta raiz.
 
 Verifique o seu prompt de comando, ele mostra qual é o nome do diretório atual (seu nome do usuário)?
 
-* Não, ele não mostra. Ao invés disso, aparece o símbolo `~`. *
+*Não, ele não mostra. Ao invés disso, aparece o símbolo `~`.*
 
 O que isso significa?
 
