@@ -594,7 +594,7 @@ $ rm -ri fastq_backup
 
 1. Crie uma nova pasta em `unix_lesson` chamada `selected_fastq`
 2. Copie os arquivos `Irrel_kd_2.subset.fq` e `Mov10_oe_2.subset.fq` de `raw_fastq` para a pasta `~/unix_lesson/selected_fastq`
-3. Renomeie a pasta `selected_fastq` e a nomeie de `exercise1`
+3. Renomeie a pasta `selected_fastq` atribuindo o nome de `exercise1`
 
 ***
 
