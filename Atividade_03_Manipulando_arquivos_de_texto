@@ -57,7 +57,17 @@ Acesse a pasta `raw_fastq` e corra o seguinte comando:
 ```bash
 $ less Mov10_oe_1.subset.fq
 ```
-Ao invés de imprimir o conteúdo do arquivo, o comando `less` abre um **buffer**  
+Ao invés de imprimir o conteúdo do arquivo, o comando `less` abre um **buffer** que permite ao usuário navegar pelo conteúdo do arquivo. Esse tipo de interface é semelhante àquela vista ao utilizar o comando `man`. Isso ocorre pois o comando `man` utiliza o comando `less` para abrir a documentação dos programas. Desta maneira, as teclas utilizadas para se movimentar pelo arquivo são as mesmas que utilizamos durante o uso do comando `man`. A seguir, são apresentados alguns atalhos adicionais para navegar por um arquivo usando `less`.
+
+<span class="caption">Atalhos para o uso do `less`</span>
+
+| Atalho           | Ação                   |
+| ---------------- | ---------------------- |
+| <kbd>SPACE</kbd> | to go forward          |
+| <kbd>b</kbd>     | to go backwards        |
+| <kbd>g</kbd>     | to go to the beginning |
+| <kbd>G</kbd>     | to go to the end       |
+| <kbd>q</kbd>     | to quit                |
 
 
 
