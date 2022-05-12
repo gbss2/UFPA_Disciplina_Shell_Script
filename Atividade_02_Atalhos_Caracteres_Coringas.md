@@ -219,9 +219,7 @@ Abaixo são apresentadas duas tabelas com opções e atalhosúteis para serem ut
 |     cd /<folder>      |     Muda para um diretório usando caminho   absoluto                   |
 |     cd <folder>/      |     Muda para um diretório usando caminho   relativo                   |
 
-  
-
-  
+ 
   
 ---
 **Bibliografia / Fontes**
