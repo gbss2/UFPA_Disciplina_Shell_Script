@@ -136,16 +136,63 @@ Para resumir, os comandos `ls ~`, `ls ~/.` e `ls /home/<nome_do_usario>` fazem e
 
 #### Histórico de comandos `history`
 
-Você pode acessar facilmente os comandos digitados anteriormente pressionando a tecla de seta <kbd>↑</kbd> em seu teclado, desta forma você pode retroceder no histórico de comandos. Por outro lado, a tecla de seta <button>down</button> leva você para frente no histórico de comandos.
+Você pode acessar facilmente os comandos digitados anteriormente pressionando a tecla de seta <kbd>↑</kbd> (para cima) em seu teclado, desta forma você pode retroceder no histórico de comandos. Por outro lado, a tecla de seta <kbd>↓</kbd> avança em relação aos comandos mais recentes no histórico de comandos.
 
-***Experimente! Enquanto estiver no prompt de comando, pressione a seta <button>para cima</button> algumas vezes e, em seguida, pressione a seta <button>para baixo</button> algumas vezes até voltar para onde começou.***
+***Enquanto estiver no prompt de comando, pressione a seta <kbd>↑</kbd> algumas vezes e, em seguida, pressione a seta <kbd>↓</kbd> algumas vezes até voltar para onde começou.***
 
 Você também pode revisar seus comandos recentes com o comando `history`. Basta digitar: 
 
+```bash
+$ history
+```
 
+Esta ação irá retornar uma lista numerada de comandos (do mais antigo para o mais recente), incluindo o comando `history` que você acabou de executar!
 
+> **Curiosidade:** Por padrão, apenas uma quantidade limitada de comandos será armazenada e exibida com o comando `history`, mas você pode aumentar ou reduzir este número. Essa alteração envolve a modificação de variáveis do Shell, sobre as quais estudaremos no futuro.
 
+> **NOTA:** Até o momento, executamos apenas comandos muito curtos que têm poucos ou nenhum argumento. Seria mais rápido reescrever do que verificar o histórico. No entanto, quando você começar a executar análises na linha de comando, verá que os comandos são mais longos e mais complexos, e o comando `history` será muito útil! Entretanto, como boa prática, não dependa do histórico para ter uma memória dos comandos executados!
 
+#### Cancelar um comando
+
+Às vezes, ao digitar um comando, você percebe que não deseja continuar ou executar a linha atual. Em vez de deletar tudo que você digitou (o que pode tomar algum tempo), você pode cancelar rapidamente a linha atual e iniciar um novo prompt com <kbd>Ctrl</kbd> + <kbd>C</kbd>.
+
+Para testar esse recurso, escreva algumas palavras aleatórios no prompt de comando e então pressione `Ctrl` + `C`, oberserve o que ocorre:
+
+```bash
+$ digitar palavras aleatorias e depois usar o atalho `Ctrl + C`
+```
+
+**Outros atalhos úteis relacionados a comandos**
+
+- <kbd>Ctrl</kbd> + <kbd>A</kbd> o leva ao início do comando que você está escrevendo.
+- <kbd>Ctrl</kbd> + <kbd>E</kbd> leva você ao final do comando digitado.
+
+****
+
+**Exercício 2**
+
+1. Ao verificar a saída do comando `history`, quantos comandos você digitou até agora?
+2. Use a tecla de seta para cima <kbd>↑</kbd> para verificar o comando que você digitou antes do comando `history`. O que ele significa? Isso faz sentido?
+3. Digite vários caracteres aleatórios no prompt de comando. Você pode mover o cursor para o início com <kbd>Ctrl</kbd> + <kbd>A</kbd>? Em seguida, você pode mover o cursor até o final com <kbd>Ctrl</kbd> + <kbd>E</kbd>? O que acontece quando você usa <kbd>Ctrl</kbd> + <kbd>C</kbd>?
+
+****
+
+## Sumário: Comandos, opções e atalhos de teclado
+
+```
+~           # home dir (diretório base do usuário)
+.           # current dir (diretório corrente ou atual)
+..          # parent dir (diretório pai)
+*           # wildcard (caractere-coringa)
+ctrl + c    # Cancela o comando atual (apaga todo o comando)
+ctrl + a    # Move o cursor para o início do comando (linha)
+ctrl + e    # Move o cursor para o final do comando (linha)
+history     # Imprime os últimos comandos digitados pelo usuário
+```
+
+> Imprima e tenha sempre à mão uma folha de dicas (_cheatsheet_) para relembrar ou verificar rapidamente os comandos que deseja executar.
+
+Abaixo são apresentadas duas tabelas com opções e atalhosúteis para serem utilizados em conjunto com os comandos `ls` e `cd`.
 
 
 **Tabela 2:** Lista de opções para o comando `ls`
