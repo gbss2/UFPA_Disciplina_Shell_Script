@@ -130,7 +130,9 @@ Aprendemos como interagir com arquivos que já existem, mas e se quisermos escre
 Para criar ou editar arquivos, precisaremos usar um **editor de texto**. Quando dizemos "editor de texto", realmente queremos dizer "texto": esses editores podem
 trabalhar apenas com dados de caracteres simples, e não com tabelas, imagens ou qualquer outra mídia. Os tipos de editores de texto disponíveis geralmente podem ser agrupados em duas categorias: **editores de texto de interface gráfica do usuário (GUI)** e **editores de linha de comando**.
 
+### Editores de texto com interface gráfica (GUI)
 
+Uma GUI é uma interface que possui botões e menus nos quais você pode clicar para executar comandos e mover-se pela interface apenas apontando e clicando. Você pode estar familiarizado com editores de texto GUI, como [Notepad++ ](http://notepad-plus-plus.org/) e [TextPad](https://www.textpad.com/home), que permite escrever e editar documentos de texto simples. Esses editores geralmente têm recursos para pesquisar texto com facilidade, extrair texto e destacar a sintaxe de várias linguagens de programação. São ótimas ferramentas, mas como são 'apontar e clicar', não podemos usá-las com eficiência a partir da linha de comando.
 
 
 
