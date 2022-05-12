@@ -63,13 +63,72 @@ Ao invés de imprimir o conteúdo do arquivo, o comando `less` abre um **buffer*
 
 | Atalho           | Ação                   |
 | ---------------- | ---------------------- |
-| <kbd>SPACE</kbd> | to go forward          |
-| <kbd>b</kbd>     | to go backwards        |
-| <kbd>g</kbd>     | to go to the beginning |
-| <kbd>G</kbd>     | to go to the end       |
-| <kbd>q</kbd>     | to quit                |
+| <kbd>SPACE</kbd> | Avançar pelo arquivo   |
+| <kbd>b</kbd>     | Retroceder             |
+| <kbd>g</kbd>     | Move para o início     |
+| <kbd>G</kbd>     | Move para o fim        |
+| <kbd>q</kbd>     | Sair do aplicativo     |
+
+> O programa `less` é uma versão melhorada do `more`, outro programa usual na visualização de arquivos.
+
+Teste o uso dos atalhos para se mover ao longo do arquivo **FASTQ**.
+
+#### Busca de arquivos usando o `less`
+
+O comando `less` também proporciona maneiras de realizar buscas em arquivos.
+
+Digite a tecla <kbd>/</kbd> para iniciar a busca, você verá que uma `/` irá aparecer ao final do buffer. Agora, você pode digitar a sequência de caracteres (**_string_**) que deseja buscar no arquivo e depois apertar <kbd>ENTER</kbd>. A interface então irá se mover para mostrar a localização da _string_ e esta será realçada. Se você novamente digitar <kbd>/</kbd> seguida por <kbd>ENTER</kbd>, `less` irá repetir a busca anterior.
+
+> **_string_** é um tipo de dado usado na programação para representar textos. É composta por uma cadeia de caracteres que também podem conter números e espaços.
+
+O comando `less` pesquisa a partir do local atual e segue em frente. Por exemplo, vamos procurar a sequência `GAGACCC` em nosso arquivo. Note que vamos direto para essa sequência.
+
+Se você iniciar uma pesquisa quando estiver no final do arquivo, `less` não encontrará o padrão desejado. Você precisa ir para o início do arquivo e pesquisar.
+
+Para sair do buffer, pressione <kbd>q</kbd>. Existem outros comandos mais sofisticados para pesquisar em seu arquivo (e abordaremos isso mais tarde), mas essa pesquisa é útil para uma verificação rápida. Você pode pensar nisso como sendo análogo a usar a tecla <kbd>Ctrl-F</kbd> ao pesquisar em seu computador.
+
+### Os comandos `head` e `tail`
+
+Há outra maneira de examinarmos os arquivos, mas apenas parte deles. Em particular, se queremos apenas ver o início ou o fim do arquivo para ver como ele está formatado.
+
+Os comandos são `head` e `tail` e eles permitem que você apenas veja o início e o fim de um arquivo, respectivamente.
+
+```bash
+$ head Mov10_oe_1.subset.fq
+```
+
+```bash
+$ tail Mov10_oe_1.subset.fq
+```
+
+Por padrão, as 10 primeiras ou últimas linhas serão impressas na tela. A opção `-n` pode ser usada com qualquer um desses comandos para especificar o número `n` linhas a ser exibido. Por exemplo, vamos imprimir a primeira e a última linha do arquivo `Mov10_oe_1.subset.fq`:
 
 
+```bash
+$ head -n 1 Mov10_oe_1.subset.fq
+
+$ tail -n 1 Mov10_oe_1.subset.fq
+```
+
+*** 
+
+**Exercício 1**
+
+1. Acesse o diretório `genomics_data`. Você pode fazer isso usando um caminho completo ou relativo.
+2. Use o comando `less` para abrir o arquivo `Encode-hesc-Nanog.bed`.
+3. Procure a string `chr11`; você verá todas as instâncias no arquivo destacadas.
+4. Permanecendo no buffer do `less`, use o atalho para chegar ao final do arquivo. Quais são as três linhas realçadas no final do arquivo onde você vê `chr11` realçado.
+5. Saia do buffer `less` e volte ao prompt de comando.
+6. Imprima na tela as últimas 5 linhas do arquivo `Encode-hesc-Nanog.bed`. O que você vê como o **_standard_output_** (saída) no prompt de comando?
+
+***
+
+## Criando e escrevendo em arquivos
+
+Aprendemos como interagir com arquivos que já existem, mas e se quisermos escrever e/ou criar nossos próprios arquivos? Obviamente, não é viável digitar os dados para um arquivo FASTA, mas você verá à medida que avançamos que há muitas situações nas quais precisaríamos escrever/criar um arquivo ou editar um arquivo existente.
+
+Para criar ou editar arquivos, precisaremos usar um **editor de texto**. Quando dizemos "editor de texto", realmente queremos dizer "texto": esses editores podem
+trabalhar apenas com dados de caracteres simples, e não com tabelas, imagens ou qualquer outra mídia. Os tipos de editores de texto disponíveis geralmente podem ser agrupados em duas categorias: **editores de texto de interface gráfica do usuário (GUI)** e **editores de linha de comando**.
 
 
 
