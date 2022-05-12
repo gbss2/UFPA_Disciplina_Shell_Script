@@ -1,1 +1,68 @@
+## Examinando arquivos
+
+Agora que já aprendemos como nos movimentar pela estrutura de arquivos do GNU/Linux e a investigar o conteúdo das pastas, precisamos aprender como examinar o conteúdo dos arquivos. Em nossos computadores pessoais, isso pode ser tão simples quanto clicar duas vezes sobre o ícone de um arquivo. Entretanto, quando estamos trabalhando no prompt de comando, o recurso de apontar e clicar do mouse não está disponível. Desta forma, para ver o conteúdo de arquivos através da interface de linha de comando, necessitamos aprender alguns comandos novos.
+
+
+### O comando `cat`
+
+O comando `cat` é um programa que lê arquivos sequencialemente, concatenando o conteúdo destes e imprimindo o resultado na tela (**_standard output_** ou **_stdout_**).
+
+> O `stdout` é um dos três recursos utilizados para gerenciar a entrada e saída de dados de programas no **_shell_**. O `stdout` permite a impressão dos resultados de um programa diretamente no prompt de comando. O `stderr` ou **_standard_error_** é utilizado para a impressão de mensagens de erro ou diagnóstico do programa. E, por fim, o `stdin` ou **_standard input_** permite a leitura de dados de entrada (**_input_**) e o redirecionamento destes para o programa.
+
+Ainda que a função primária do comando `cat` seja concatenar arquivos, a habilidade deste programa em imprimir todas as linhas de um arquivo na tela é bastante utilizada para investigar o conteúdo de arquivos. E esse recurso pode ser utilizado para um único arquivo! Podemos testar o funcionamento deste programa imprimindo o conteúdo do arquivo `~/unix_lesson/other/sequences.fa`. Para tal, digite o comando `cat` seguido pelo nome do arquivo (se necessário, inclua o caminho até o arquivo:
+
+```bash
+$ cat ~/unix_lesson/other/sequences.fa
+```
+O comando `cat` irá imprimir todo o conteúdo do arquivo `sequences.fa` na tela. 
+
+**Qual o conteúdo desse arquivo?**
+
+```bash
+
+>SRR014849.1 EIXKN4201CFU84 length=93 
+GGGGGGGGGGGGGGGGCTTTTTTTGTTTGGAACCGAAAGGGTTTTGAATTTCAAACCCTTTTCGGTTTCCAACCTTCCAAAGCAATGCCAATA
+
+>gi|340780744|ref|NC_015850.1| Acidithiobacillus caldus SM-1 chromosome, complete genome
+ATGAGTAGTCATTCAGCGCCGACAGCGTTGCAAGATGGAGCCGCGCTGTGGTCCGCCCTATGCGTCCAACTGGAGCTCGTCACGAG
+TCCGCAGCAGTTCAATACCTGGCTGCGGCCCCTGCGTGGCGAATTGCAGGGTCATGAGCTGCGCCTGCTCGCCCCCAATCCCTTCG
+TCCGCGACTGGGTGCGTGAACGCATGGCCGAACTCGTCAAGGAACAGCTGCAGCGGATCGCTCCGGGTTTTGAGCTGGTCTTCGCT
+CTGGACGAAGAGGCAGCAGCGGCGACATCGGCACCGACCGCGAGCATTGCGCCCGAGCGCAGCAGCGCACCCGGTGGTCACCGCCT
+CAACCCAGCCTTCAACTTCCAGTCCTACGTCGAAGGGAAGTCCAATCAGCTCGCCCTGGCGGCAGCCCGCCAGGTTGCCCAGCATC
+CAGGCAAATCCTACAACCCACTGTACATTTATGGTGGTGTGGGCCTCGGCAAGACGCACCTCATGCAGGCCGTGGGCAACGATATC
+CTGCAGCGGCAACCCGAGGCCAAGGTGCTCTATATCAGCTCCGAAGGCTTCATCATGGATATGGTGCGCTCGCTGCAACACAATAC
+CATCAACGACTTCAAACAGCGTTATCGCAAGCTGGACGCCCTGCTCATCGACGACATCCAGTTCTTTGCGGGCAAGGACCGCACCC
+
+>gi|129295|sp|P01013|OVAX_CHICK GENE X PROTEIN (OVALBUMIN-RELATED)
+QIKDLLVSSSTDLDTTLVLVNAIYFKGMWKTAFNAEDTREMPFHVTKQESKPVQMMCMNNSFNVATLPAE
+
+```
+
+> Esse arquivo contém sequências no formato [**FASTA**](https://en.wikipedia.org/wiki/FASTA_format).
+
+### O comando `less`
+
+O comando `cat` é muito eficiente para examinar arquivos pequenos, entretanto, a leitura de arquivos maiores pode se tornar problemática. E, no contexto da bioinformática, a situação mais comum será a manipulação de arquivos grandes. Como exemplo, podemos verificar o tamanho dos arquivos **FASTQ** presentes na pasta `raw_fastq`. Para tal, vamos utilizar o comando `ls` em conjunto com as opções `-lh`.
+
+> A opção `-l` imprime a lista de arquivos no formato longo (com informações mais detalhadas) e a opção `-h` traduz essas informações num formato mais conveniente para a leitura humana (por ex. o tamanho dos arquivos é expresso usando prefixos métricos - 1K 234M 2G). 
+
+```bash
+$ ls -lh ~/unix_lesson/raw_fastq
+```
+
+Na quarta coluna você verá o tamanho de cada arquivo e irá notar que eles são grandes (por volta de algumas dezenas de Mb). Dessa forma, examinar o conteúdo desses arquivos com o comando `cat` não é adequado e, para isso, recorreremos ao comando `less`.
+
+Acesse a pasta `raw_fastq` e corra o seguinte comando: 
+
+```bash
+$ less Mov10_oe_1.subset.fq
+```
+Ao invés de imprimir o conteúdo do arquivo, o comando `less` abre um **buffer**  
+
+
+
+
+
+
+
 
