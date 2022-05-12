@@ -1,8 +1,3 @@
-
-
-
-
-
 ## Primeiros Passos
 
 As atividades práticas serão, preferencialmente, executadas no servidor Darwin hospedado no Laboratório de Genética Humana e Molecular (LGHM/UFPA). Dessa forma, os alunos deverão acessar o servidor para ter acesso aos dados e recursos para execução das atividades.
