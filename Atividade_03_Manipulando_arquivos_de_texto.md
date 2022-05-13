@@ -132,7 +132,103 @@ trabalhar apenas com dados de caracteres simples, e não com tabelas, imagens ou
 
 ### Editores de texto com interface gráfica (GUI)
 
-Uma GUI é uma interface que possui botões e menus nos quais você pode clicar para executar comandos e mover-se pela interface apenas apontando e clicando. Você pode estar familiarizado com editores de texto GUI, como [Notepad++ ](http://notepad-plus-plus.org/) e [TextPad](https://www.textpad.com/home), que permite escrever e editar documentos de texto simples. Esses editores geralmente têm recursos para pesquisar texto com facilidade, extrair texto e destacar a sintaxe de várias linguagens de programação. São ótimas ferramentas, mas como são 'apontar e clicar', não podemos usá-las com eficiência a partir da linha de comando.
+Uma GUI é uma interface que possui botões e menus com os quais pode interagir, por exemplo, você pode clicar para executar comandos ou pode mover-se pela interface apenas apontando e clicando. Você pode conhecer editores de texto GUI, como o [Notepad++ ](http://notepad-plus-plus.org/) e o [TextPad](https://www.textpad.com/home), os quais permitem escrever e editar documentos de texto simples. Esses editores geralmente são fáceis e intuitivos para usar, e possuem recursos para pesquisar texto, extrair texto ou mesmo destacar a sintaxe de várias linguagens de programação. São ótimas ferramentas, mas como são baseadas em 'apontar e clicar', não podemos usá-las com eficiência a partir da linha de comando.
+
+#### Editores de linha de comando
+
+Ao trabalhar remotamente, precisamos de um editor de texto que funcione a partir da interface de linha de comando. Com editores de linha de comando você deve navegar usando as teclas de seta e os atalhos, já que você não tem a opção de 'apontar e clicar'. Alguns editores populares incluem [Emacs](http://www.gnu.org/software/emacs/), [Vim](http://www.vim.org/), ou um editor gráfico como [Gedit]( http://projects.gnome.org/gedit/). Esses são editores que geralmente estão disponíveis para uso em clusters de computação de alto desempenho. Há também editores mais simples disponíveis para uso no cluster (por exemplo, [nano](http://www.nano-editor.org/)), mas tendem a ter funcionalidade limitada e nem sempre estão instalados no servidor remoto.
+
+### Introdução ao Vim
+
+Para escrever e editar arquivos, vamos aprender a usar um editor de texto chamado **'Vim'**. O Vim é um editor de texto robusto com amplos recursos para edição de texto. No entanto, neste momento, vamos nos concentrar em **explorar funções mais básicas**.
+
+> #### Como posso me lembrar de todos os atalhos do Vim?
+> Para ajudá-lo a se lembrar de alguns dos atalhos de teclado e permitir que você explore funcionalidades adicionais por conta própria, faço uso desta folha de dicas [cheatsheet Vim](https://github.com/hbctraining/In-depth-NGS-Data-Analysis-Course/blob/master/resources/VI_CommandReference.pdf). Faça o download para o seu computador ou imprima uma cópia, é um recurso útil ao interagir com o Vim.
+
+### Interface do programa Vim
+
+É possível criar um documento executando um editor de texto (por exemplo, o `vim`) e atribuir um nome ao documento que deseja criar.
+
+Acesse o diretório `~/unix_lesson/other` e crie um documento chamado `draft.txt` usando o comando `vim`:
+
+```bash
+$ cd ~/unix_lesson/other
+	
+$ vim draft.txt
+```
+
+**Observe o `"draft.txt" [New File]` na seção inferior esquerda da tela.** Isso informa que você criou um novo arquivo no vim.
+
+> **ATENÇÃO:** Caso crie um novo arquivo com o comando acima, mas saia sem salvar as alterações, o novo arquivo não será efetivamente criado
+
+### Modos Vim
+
+O Vim dispõe de **_dois modos básicos_** que permitem criar e editar documentos:
+
+- **_command mode (modo padrão):_** recurso que te permitirá inserir os comandos desejados, por exemplo, salvar, sair, buscar, substituir, dentre outros.
+
+- **_insert mode:_** recurso que permitirá que você escreva e edite texto.
+
+- **_visual mode:_** recurso usado para destacar e editar texto em massa (não será abordado nesse curso).
+
+Após a criação de um arquivo, o vim entra automaticamente no **_modo de comando**_. Para alterar para o **_modo de edição_** digite <kbd>i</kbd>. **Observe a mensagem `--INSERT--` no canto inferior esquerdo da tela.** Digite algumas linhas de texto:
+
+Interface do programa Vim ao criar um arquivo (modo de comando):
+![Interface Vim ao iniciar - Modo de comando](https://user-images.githubusercontent.com/17560094/168376633-fd93996a-18a9-4623-8959-38a0d30c7d19.png)
+
+
+Interface do programa Vim no modo de edição (após digitar <kbd>i</kbd> a partir do modo de comando)
+![Interface Vim - Modo de edição](https://user-images.githubusercontent.com/17560094/168376783-642d8fa4-a040-4bae-ac81-42b81521f985.png)
+
+
+Interface do programa Vim no modo de edição (após digitar <kbd>i</kbd> a partir do modo de comando)
+![Interface Vim - Texto digitado](https://user-images.githubusercontent.com/17560094/168380565-2af8c5e7-08a7-4a20-8701-5b4c071a97a6.png)
+
+
+Após terminar de digitar, **pressione <kbd>esc</kbd> para voltar ao modo de comando.**
+
+**Note que `--INSERT--` desapareceu da parte inferior da tela.**
+
+> ### Revisão dos modos de Vim
+> 
+> | Tecla                 | Ação                   |
+> | ----------------------|---------------------------------------------- |
+> | <kbd>i</kbd>          | Modo de edição - Escrever e editar textos     |
+> | <kbd>esc</kbd>        | Modo de comando - Emitir comandos / atalhos   |
+> 
+
+### Salvando as alterações e Saindo do programa Vim
+
+Para **_"write to file"_** ou salvar as modificações feitas no arquivo, **digite <kbd>:w</kbd>** no modo de comando. Os comandos digitados podem ser vistos no canto inferior esquerdo da tela. (Note que o comando é composto por `:` e `w`.
+
+![image](https://user-images.githubusercontent.com/17560094/168382172-c6e741d0-5ff5-4291-a1ad-f23581de226d.png)
+
+Depois de salvar o arquivo, o número total de linhas e caracteres presentes aparacerá na seção inferior esquerda da tela.
+
+![image](https://user-images.githubusercontent.com/17560094/168382494-c61a5dcf-fdec-4a05-9b79-ea5ccf5f6137.png)
+
+De uma maneira mais concisa, podemos **salvar e sair** de uma só vez **digitando <kbd>:wq</kbd>**. Ao fazer isso, você deve ter saído do vim e retornado ao seu prompt de comando.
+
+Para editar o arquivo `draft.txt` recém-criado, você pode abri-lo novamente com o vim: `vim draft.txt`. Primeiro, mude para o **modo de edição** e digite um texto adicional. Caso queira **sair sem salvar**, entre no **modo de comando** pressionando a tecla <kbd>esc</kbd> e depois **digite <kbd>:q!</kbd>**.
+
+![image](https://user-images.githubusercontent.com/17560094/168383468-dc52ac33-b93c-49d1-af19-7d2ee8fb34c1.png)
+
+> ### Revisão das ações de salvar e sair
+> 
+> | Tecla (no modo de comando) | Ação            |
+> | -------------------------- | ----------------|
+> | <kbd>:w</kbd>              | Salvar edições  |
+> | <kbd>:wq</kbd>             | Salvar e sair   |
+> | <kbd>:q!</kbd>             | Sair sem salvar |
+
+
+### Atalhos no Vim
+
+Embora não possamos apontar e clicar para navegar pelo documento, podemos usar as teclas de seta para se mover. No entanto, navegar com as teclas de seta pode ser muito lento. Com o intuito de otimizar o uso, o Vim disponibiliza diversos atalhos (que são completamente não intuitivos, mas muito úteis à medida que você se acostuma com eles).
+
+Crie um novo arquivo chamado `code_poetry.txt` usando `vim`. Entre no *modo de inserção* e digite o texto conforme mostrado abaixo na captura de tela:
+
+
 
 
 
