@@ -219,3 +219,161 @@ O comando `wc` significa ***w**ord **c**ount*. Este comando conta o número de l
 $ grep NNNNNNNNNN Mov10_oe_1.subset.fq | wc -l
 ```
 
+*Experimente sem a opção `-l` para ver a saída completa.*
+
+> **Dica** - Semelhante ao `grep`, você pode digitar `wc --help` ou `man wc` para ver todas as opções.
+
+**Sobre _pipes_:**
+* O **_pipe_** é um conceito muito importante/poderoso no Shell
+* Você pode encadear quantos comandos desejar
+
+A filosofia por trás dos três operadores de redirecionamento (`>`, `>>`, `|`) que você aprendeu até agora é que nenhum deles por si só faz muito. MAS quando você começa a encadeá-los, você pode fazer algumas coisas realmente poderosas com muita eficiência.
+
+**Para poder usar o shell de forma eficaz, é essencial tornar-se proficiente no uso do pipe e dos operadores de redirecionamento.**
+
+## Praticando busca, _piping_ e redirecionamento
+
+Vamos usar os novos comandos em nosso kit de ferramentas (e alguns novos) para examinar o arquivo de "anotação gênica" **chr1-hg19_genes.gtf**. Vamos usar este arquivo para encontrar as coordenadas genômicas de todos os éxons do cromossomo 1.
+
+```bash
+$ cd ~/unix_lesson/reference_data/
+```
+
+### Introdução ao formato GTF
+
+Vamos explorar um pouco nosso arquivo `chr1-hg19_genes.gtf`. Que informação contém?
+
+```bash
+$ less chr1-hg19_genes.gtf
+```
+
+> **O arquivo GTF (Gene Transfer Format)** é um arquivo delimitado por tabulações com informações organizadas de maneira muito específica, geralmente para análises NGS. Essa informação é especificamente sobre elementos funcionais encontados em um genoma; neste caso, no cromossomo 1.
+>
+> Para mais informações sobre este formato de arquivo, confira o [site do Ensembl](http://useast.ensembl.org/info/website/upload/gff.html).
+
+As colunas no arquivo GTF contêm as coordenadas genômicas (localização) dos elementos de um gene (exon, start_codon, stop_codon, CDS) juntamente com os identificadores de genes, transcritos e proteínas associados.
+
+Um éxon pode fazer parte de dois ou mais transcritos diferentes gerados a partir do mesmo gene (os diferentes transcritos de um gene são conhecidos como isoformas). Dessa forma, em um arquivo GTF, um éxon pode ser representados várias vezes, uma para cada transcrito ou isoforma (derivadas do evento de _splicing_ alternativo).
+
+```bash
+$ grep PLEKHN1 chr1-hg19_genes.gtf | head -n 5
+```
+
+Essa pesquisa retorna dois transcritos diferentes - NM_001160184 e NM_032129 - do mesmo gene e que contêm o mesmo éxon.
+
+### Comandos `cut` e `sort`
+
+Vamos aprender dois novos comandos para a nossa prática.
+
+* **`cut` é um comando muito útil para extrair colunas de arquivos.**
+
+Usaremos `cut` com a opção `-f` para especificar quais colunas específicas do arquivo queremos extrair. Digamos que desejamos extrair a 1ª coluna (número do cromossomo) e a 4ª coluna (coordenada de início) do arquivo `chr1-hg19_genes.gtf`, para tal podemos usar a seguinte instrução:
+
+```bash
+$ cut -f 1,4 chr1-hg19_genes.gtf  | head
+```
+
+> O comando `cut` assume que as colunas são separadas por tabulações `TAB` (ou seja, delimitadas por tabulações **TSV**). O `chr1-hg19_genes.gtf` é um arquivo delimitado por tabulações, então o comando padrão `cut` funcionria. No entanto, os dados podem ser separados por outros tipos de delimitadores como "," ou ";". Se os dados não estiverem delimitados por tabulação, você pode adicionar a opção `-d` para especificar o delimitador (por exemplo, `-d ","` para um arquivo .csv).
+
+* ** O comando `sort` é usado para ordenar o conteúdo de um arquivo.** Ele possui argumentos que permitem escolher por qual coluna classificar (`-k`), que tipo de classificação você deseja (por exemplo, numérico `-n`) e também se o resultado da ordenação deve retornar apenas valores únicos (`-u`). Esses são apenas algunns dos muitos recursos do comando `sort`.
+
+Vamos fazer um teste rápido de como o argumento `-u` retorna apenas linhas únicas (e remove duplicatas).
+
+```bash
+$ cut -f 1,4 chr1-hg19_genes.gtf | wc -l
+```
+
+*Quantas linhas foram retornadas?*
+
+<details>
+	<summary><b><i>Clique aqui para conferir a resposta</i></b></summary>
+	<p>Seu comando deve ter retornado 76.767 linhas.</p>
+</details>
+
+Agora utilize o comando `sort -u` antes de contar as linhas.
+
+```bash
+$ cut -f 1,4 chr1-hg19_genes.gtf | sort -u | wc -l
+```
+*Quantas linhas você vê agora?*
+
+<details>
+	<summary><b><i>Clique aqui para conferir a resposta</i></b></summary>
+	<p>Seu comando deve ter retornado 27.852 linhas.</p>
+</details>
+
+***
+
+**Exercício 2**
+
+Agora que sabemos qual tipo de informação há dentro do arquivo GTF, vamos usar os comandos que aprendemos até agora para responder a uma pergunta simples sobre nossos dados: **A partir do arquivo `chr1-hg19_genes.gtf `, quantos éxons únicos estão presentes no cromossomo 1?**
+
+Para calcular o número de exons únicos no cromossomo 1, vamos realizar uma série de etapas, conforme mostrado abaixo. Neste exercício, precisamos entender qual comando usar para cada etapa.
+
+1. Extrair apenas as linhas contendo éxons
+2. Extrair as coordenadas genômicas 
+3. Remover os éxons duplicados
+4. Contar o número total de éxons
+
+O objetivo final é ter uma única linha de código, com vários comandos encadeados usando o operador pipe. Mas, recomendamos que, em um primeiro momento, você faça isso de maneira gradual, conforme detalhado abaixo.
+
+#### 1. Extrair as coordenadas genômicas das linhas contendo éxons
+
+Nós queremos apenas os exons (não os elementos CDS ou start_codon), então vamos usar `grep` para procurar a palavra "exon". É importante verificar as primeiras linhas  da saída do `grep` direcionando o resultado para o comando `head`. ***Relate o comando usado nesta fase.***
+
+#### 2. Extrair as coordenadas genômicas
+
+Vamos definir a singularidade de um éxon através das coordenadas genômicas, tanto inicial quanto final. Portanto, a partir do resultado da etapa 1, precisamos manter 4 colunas (**chr**, **start**, **stop** e **strand**) para encontrar o número total de éxons únicos. Os números de coluna que você deseja são 1, 4, 5 e 7.
+
+Você pode usar `cut` para extrair essas colunas da saída do passo 1. ***Relate o comando usado nesta etapa.***
+
+Neste ponto, as primeiras linhas devem ficar assim:
+
+
+```bash
+
+	chr1	14362	14829	-
+	chr1	14970	15038	-
+	chr1	15796	15947	-
+	chr1	16607	16765	-
+	chr1	16858	17055	-
+	
+```
+
+#### 3. Remover os éxons duplicados
+
+Agora, precisamos remover os exons repetidos devido às isoformas. Podemos usar o comando `sort` com a opção `-u`. ***Relate o comando usado nesta fase.***
+
+Você vê uma mudança em como a ordem mudou? Por padrão, o comando `sort` irá ordenar e o que você não pode ver aqui é que ele removeu as duplicatas. Usaremos a etapa 4 para verificar se esta etapa funcionou.
+
+#### 4. Contar o número total de éxons
+
+Primeiro, verifique quantas linhas teríamos sem usar o comando `sort -u`, para tal utilize o comando `wc -l`.
+
+Agora, para contar quantos éxons únicos estão no cromossomo 1, usaremos o `sort -u` e redirecionaremos a saída para `wc -l`. Você observa uma diferença no número de linhas?
+
+***Informe o comando usado ao final e o número de linhas que você vê com e sem o `sort -u`.***
+
+***
+
+### Resumo!
+
+Ao invés de solucionar o problema em apenas uma linha de código no final, poderíamos ter feito em várias etapas salvando a saída de cada comando em um novo arquivo. Entretanto, não seria tão eficiente quanto usar o **_pipe_**! Tudo o que precisávamos era o número de éxons únicos, e as saídas intermediárias não eram úteis. Evitar o armazenamento de dados desnecessários de cada etapa intermediária evita a desordem e nos ajuda a evitar o desperdício de espaço de armazenamento!
+
+
+---
+**Bibliografia / Fontes**
+
+BASH programming: https://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html 
+
+BASH for Genomics: https://angus.readthedocs.io/en/2016/GenomicsShell.html 
+
+GNU/Linux tutorials: https://www.debian.org/doc/manuals/debian-reference/ch01.en.html 
+
+Jargas, Aurelio Marinho. Shell Script Profissional. São Paulo : Novatec Editora, 2008.
+
+*The materials used in this lesson were derived from work of members of the teaching team at the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.*
+
+* *The materials used in this lesson were derived from work that is Copyright © Data Carpentry (http://datacarpentry.org/). 
+All Data Carpentry instructional material is made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0).*
+* *Adapted from the lesson by Tracy Teal. Original contributors: Paul Wilson, Milad Fatenejad, Sasha Wood and Radhika Khetani for Software Carpentry (http://software-carpentry.org/)*
