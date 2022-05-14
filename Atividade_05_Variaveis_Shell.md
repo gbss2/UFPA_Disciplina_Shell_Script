@@ -182,13 +182,123 @@ Perceba que agora, apenas a string `Mov10_oe_1.subset` é retornada.
 **Exercício 4**
 
 1. Como você usaria o comando `basename` para retornar apenas `Mov10_oe_1`?
-2. Use `basename` e o arquivo `Irrel_kd_1.subset.fq` como entrada. Como você obteria a string `Irrel_kd_1`?
+2. Use `basename` e o arquivo `Irrel_kd_1.subset.fq` como entrada. Como você obteria a _string_ `Irrel_kd_1`?
   
 ***
   
-  
-  
-  
+O comando `basename` retorna uma _string_ e podemos armazená-la dentro de uma variável! Para fazer isso precisamos usar uma sintaxe especial devido aos espaços contidos no comando. Lembre-se que uma das regras para criação de variáveis é que não pode haver espaços.
+
+> **NOTA:** A sintaxe especial envolve **a tecla de acento grave** <kbd>`</kbd>. Na maioria dos teclados este caractere está localizado abaixo da tecla <kbd>esc</kbd>. Um recurso, caso não consiga localizar a tecla <kbd>`</kbd> é copiar e colar.
+	
+O comando que vamos executar está contido entre os acentos graves (um no início e outro no final), e então podemos atribuí-lo à variável do modo usal. Vamos testar isso através do exemplo acima com `Mov10_oe_1.subset.fq`:
+
+```bash
+$ samplename=`basename ~/unix_lesson/raw_fastq/Mov10_oe_1.subset.fq .fq`
+```
+
+Verifique qual o valor armazenado na variável `samplename`:
+
+```bash
+$ echo $samplename
+```
+
+> #### O comando `basename`
+> Pode não ser clara a utilidade deste comando nos exemplos acima, mas este é um comando muito útil ao criar scripts para análise. É comum criarmos arquivos de saída e o `basename` nos permite criar facilmente um prefixo e utilizá-lo para nomear os arquivos de saída. Tal recurso será demonstrado com mais detalhes na atividade 06.
+
+
+## Shell Scripts com variáveis bash
+
+Agora é hora de juntar todos esses conceitos para criar uma versão mais avançada do script com o qual começamos no início desta lição! Este script permitirá ao usuário obter informações sobre qualquer diretório. Estas são as etapas para criar nosso script:
+
+1. Atribuir o caminho do diretório a uma variável
+2. Criar uma variável que armazene apenas o nome do diretório (e nenhuma informação de caminho)
+3. Mover do diretório corrente (atual) para o diretório desejado (etapa 1).
+4. Listar o conteúdo do diretório
+5. Listar o número total de arquivos no diretório
+
+Parece complicado, mas você dispõe de todos os conceitos e comandos necessários para fazer isso sem grandes percalços!	
+	
+Vamos começar acessando o diretório `other` e criando um script chamado `directory_info.sh`:
+
+```bash
+$ cd ~/unix_lesson/other
+$ vim directory_info.sh
+```	
+
+Neste script, adicionaremos **comentários** usando o símbolo de hashtag `#`. Via de regra, linhas iniciadas por `#` não são interpretadas como código pelo Shell. Lembre-se que os **comentários são cruciais** para a documentação adequada de seus scripts. Isso permitirá que você e seus colaboradores saibam o que cada trecho do código está fazendo.
+
+Começaremos com um primeiro comentário descrevendo o **como usar o script**. Isso permite que qualquer pessoa que esteja usando o script saiba o que ele faz e quais argumentos são necessários (se houver). No nosso caso, precisamos que o usuário indique o caminho (_path_) para o diretório de interesse. Esse valor será atribuído a uma variável para uso posterior.
+	
+```bash
+## USAGE: Provide the full path to the directory you want information on
+dirPath=~/unix_lesson/raw_fastq
+```	
+
+Em seguida, criaremos outra variável para armazenar o nome do diretório. Para tal, podemos usar o comando `basename`. *Observe o uso do `$` para recuperar o valor armazenado dentro da variável!*
+
+
+```bash
+# Get only the directory name
+dirName=`basename $dirPath`
+```
+
+As próximas etapas requerem comandos simples para alterar o diretório (`cd`) e listar o conteúdo deste (`ls -l`). Podemos adicioná-los ao script certificando-nos de que estamos referenciando a variável correta e incluir linhas com o comando `echo` para detalhar o processo de execução do script.	
+	
+```bash
+echo "Reporting on the directory" $dirName "..."
+
+# Move into the directory
+cd $dirPath
+
+echo "These are the contents of" $dirName
+ls -l 
+```
+
+A etapa final para retornar o número total de arquivos requer o uso de dois comandos, por isso, usaremos o `pipe` (`|`):
+
+```bash
+echo "The total number of files contained in" $dirName
+ls | wc -l
+
+echo "Report complete!"
+```
+
+Depois de adicionar a declaração final `echo`, o script estará pronto! Certifique-se de que seu script é semelhante ao que listamos abaixo. Caso afirmatico, salve as alterações e saia do Vim.
+
+```bash
+## USAGE: Provide the full path to the directory you want information on
+dirPath=~/unix_lesson/raw_fastq
+
+# Get only the directory name
+dirName=`basename $dirPath`
+
+echo "Reporting on the directory" $dirName "..."
+
+# Move into the directory
+cd $dirPath
+
+echo "These are the contents of" $dirName
+ls -l 
+
+echo "The total number of files contained in" $dirName
+ls | wc -l
+
+echo "Report complete!"
+```
+
+***
+
+**Exercício 4**
+
+1. Execute o script `directory_info.sh`. Descreva o que é impresso na tela.
+2. Abra o script `directory_info.sh`. Altere a linha de código apropriada para que o diretório de interesse seja `~/unix_lesson/genomics_data`. Salve e saia do Vim.
+3. Execute o script com as alterações e relate o que é impresso na tela.
+
+***
+
+Nesta atividade, apresentamos alguns conceitos úteis quando você está começando a criar scripts em shell. É importante entender cada um dos conceitos individuais, mas também perceber como eles interagem para aumentar a flexibilidade e eficiência do seu script. Mais adiante, ilustraremos ainda mais o poder dos scripts e como eles podem facilitar nossas vidas ao programar. Qualquer tipo de dado que você queira analisar inevitavelmente envolverá diversas etapas e, frequentemente, ferramentas e programas diferentes. Executá-los a partir de um script de shell é o primeiro passo para criar seu _workflow_ ou _pipeline_ de análise!
+
+
 ---
 **Bibliografia / Fontes**
 
