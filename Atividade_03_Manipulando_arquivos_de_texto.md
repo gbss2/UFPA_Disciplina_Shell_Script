@@ -254,7 +254,7 @@ AFTERWORDS: tell nobody.
         sleep, sleep, die yourself,
         die at last
 ```
-| ![Black Perl](https://en.wikipedia.org/wiki/Black_Perl) |
+| [Black Perl](https://en.wikipedia.org/wiki/Black_Perl) |
 |:--:|
 | <b>Poema escrito em código Perl (autor desconhecido)</b>|
 
