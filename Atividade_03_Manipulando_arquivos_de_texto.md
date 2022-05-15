@@ -226,10 +226,106 @@ Para editar o arquivo `draft.txt` recém-criado, você pode abri-lo novamente co
 
 Embora não possamos apontar e clicar para navegar pelo documento, podemos usar as teclas de seta para se mover. No entanto, navegar com as teclas de seta pode ser muito lento. Com o intuito de otimizar o uso, o Vim disponibiliza diversos atalhos (que são completamente não intuitivos, mas muito úteis à medida que você se acostuma com eles).
 
-Crie um novo arquivo chamado `code_poetry.txt` usando `vim`. Entre no *modo de inserção* e digite o texto conforme mostrado abaixo na captura de tela:
+Crie um novo arquivo chamado `code_poetry.txt` usando `vim`. Copie o texto abaixo, entre no *modo de inserção* e cole usando o comando `p`:
+
+```perl
+BEFOREHAND: close door, each window & exit; wait until time.
+    open spellbook, study, read (scan, select, tell us);
+write it, print the hex while each watches,
+    reverse its length, write again;
+    kill spiders, pop them, chop, split, kill them.
+        unlink arms, shift, wait & listen (listening, wait),
+sort the flock (then, warn the "goats" & kill the "sheep");
+    kill them, dump qualms, shift moralities,
+    values aside, each one;
+        die sheep! die to reverse the system
+        you accept (reject, respect);
+next step,
+    kill the next sacrifice, each sacrifice,
+    wait, redo ritual until "all the spirits are pleased";
+    do it ("as they say").
+do it(*everyone***must***participate***in***forbidden**_*_*_*).
+return last victim; package body;
+    exit crypt (time, times & "half a time") & close it,
+    select (quickly) & warn your next victim;
+AFTERWORDS: tell nobody.
+    wait, wait until time;
+    wait until next year, next decade;
+        sleep, sleep, die yourself,
+        die at last
+```
+| ![Black Perl](https://en.wikipedia.org/wiki/Black_Perl) |
+|:--:|
+| <b>Poema escrito em código Perl (autor desconhecido)</b>|
 
 
+Após colar o texto, você pode exibir a numeração de cada linha alternando para o modo de comando e digitando o comando `:set number`. Mais tarde, se você optar por removê-los, poderá redefinir esse recurso usando `:set nonumber`. Note que agora é `nonumber`.
 
 
+| Tecla (modo de comando)         | Ação                         |
+| ------------------------------- | ---------------------------- |
+| <kbd>:set number</kbd>          | Aciona o número das linhas   |
+| <kbd>:set nonumber</kbd>        | Desabilita o número de linhas|
+
+**Salve o documento.** 
+
+Verifique se está **no modo de comando**, vamos aprender algumas instruções sobre como nos mover pelo arquivo `code_poetry.txt`.
+
+**Movendo-se pelo arquivo**
+
+| Tecla (modo de comando) | Ação                              |
+| ----------------------- | --------------------------------- |
+| <kbd>gg</kbd>           | Mover-se para o início do arquivo |
+| <kbd>G</kbd>            | Mover-se para o final do arquivo  |
+| <kbd>$</kbd>            | Mover-se para o final da linha    |
+| <kbd>0</kbd>            | Mover-se para o início da linha   |
+| <kbd>w</kbd>            | Mover-se para a próxima palavra   |
+| <kbd>b</kbd>            | Mover-se para a palavra anterior  |
+
+Tente particar alguns desses comandos e depois saia sem salvar as alterações.
+
+**Editando o arquivo**
+
+| Tecla (modo de comando)             | Ação                                                        |
+| ----------------------------------- | ----------------------------------------------------------- |
+| <kbd>dw</kbd>                       | Deletar palavra                                             |
+| <kbd>dd</kbd>                       | Deletar linha                                               |
+| <kbd>u</kbd>                        | Desfazer                                                    |
+| <kbd>Ctrl + r</kbd>                 | Refazer                                                     |
+| <kbd>/*pattern*</kbd>               | Buscar por padrão (*n/N* move para as próximas ocorrências) |
+| <kbd>:%s/*search*/*replace*/g</kbd> | Busca por um padrão e substitui todas as ocorrências        |
+
+*** 
+
+**Exercício 2**
+
+Alguns comandos básicos do vim foram mostrados, mas a prática é a chave para se sentir confortável com o programa. Neste sentido, vamos exercitar o que aprendemos tentando resolver um pequeno desafio.
+
+1. Abra o arquivo `code_poetry.txt` e exclua a palavra "spellbook" da linha #2.
+2. Saia sem salvar.
+3. Abra o `code_poetry.txt` novamente e substitua todas as ocorrências de "wait" por "continue".
+4. Exclua: "AFTERWORDS: tell nobody."
+5. Salve o arquivo.
+6. Desfaça sua exclusão anterior.
+7. Refaça sua exclusão anterior.
+8. Apague as primeiras e últimas palavras das duas primeiras linhas.
+9. Salve o arquivo.
+10. Faça uma cópia local (no seu computador) e poste no Classroom.
 
 
+---
+**Bibliografia / Fontes**
+
+BASH programming: https://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html 
+
+BASH for Genomics: https://angus.readthedocs.io/en/2016/GenomicsShell.html 
+
+GNU/Linux tutorials: https://www.debian.org/doc/manuals/debian-reference/ch01.en.html 
+
+Jargas, Aurelio Marinho. Shell Script Profissional. São Paulo : Novatec Editora, 2008.
+
+*The materials used in this lesson were derived from work of members of the teaching team at the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.*
+
+* *The materials used in this lesson were derived from work that is Copyright © Data Carpentry (http://datacarpentry.org/). 
+All Data Carpentry instructional material is made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0).*
+* *Adapted from the lesson by Tracy Teal. Original contributors: Paul Wilson, Milad Fatenejad, Sasha Wood and Radhika Khetani for Software Carpentry (http://software-carpentry.org/)*
