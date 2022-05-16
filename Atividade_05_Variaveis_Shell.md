@@ -15,7 +15,7 @@ Vá para o diretório `other` e crie um novo arquivo usando `vim`. Chamaremos no
 
 ```bash
 $ cd ~/unix_lesson/other
-$ vim list.sh
+$ vim listing.sh
 ```
 
 Este script de shell fará duas coisas:
