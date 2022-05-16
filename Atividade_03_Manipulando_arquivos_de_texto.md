@@ -308,7 +308,7 @@ Alguns comandos básicos do vim foram mostrados, mas a prática é a chave para 
 5. Salve o arquivo.
 6. Desfaça sua exclusão anterior.
 7. Refaça sua exclusão anterior.
-8. Apague as primeiras e últimas palavras das duas primeiras linhas.
+8. Apague a primeira e a última palavra das duas primeiras linhas.
 9. Salve o arquivo.
 10. Faça uma cópia local (no seu computador) e poste no Classroom.
 
