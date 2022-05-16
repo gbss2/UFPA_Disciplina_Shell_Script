@@ -142,7 +142,7 @@ Utilizando qualquer uma dessas opções, você deverá ter o resultado almejado.
   
 > **OBSERVAÇÃO:** as variáveis criadas abrangem todo o sistema de um usuário e independem do local (diretório) onde o usuário se encontra. É por isso que podemos referenciá-las a partir de qualquer diretório. No entanto, elas estarão disponíveis apenas para a sua sessão atual. Se você sair da sessão e efetuar login novamente mais tarde, as variáveis que você criou não existirão mais.
 
- **Exercício 3**
+ **Exercício 2**
 
 1. Use a variável `$file` como entrada para os comandos `head` e `tail` e use a opção para exibir apenas quatro linhas. Indique os comandos utilizados e compare as linhas de cabeçalho (`@HWI`) obtidas por cada um dos comandos. 
 2. Crie uma nova variável chamada `meta` e atribua a ela o valor `Mov10_rnaseq_metadata.txt`. Para responder as perguntas abaixo, use a variável `$meta` e mantenha-se no diretório atual. Indique os comandos que você utilizaria para:
@@ -179,7 +179,7 @@ $ basename ~/unix_lesson/raw_fastq/Mov10_oe_1.subset.fq .fq
 
 Perceba que agora, apenas a string `Mov10_oe_1.subset` é retornada. 
 
-**Exercício 4**
+**Exercício 3**
 
 1. Como você usaria o comando `basename` para retornar apenas `Mov10_oe_1`?
 2. Use `basename` e o arquivo `Irrel_kd_1.subset.fq` como entrada. Como você obteria a _string_ `Irrel_kd_1`?
