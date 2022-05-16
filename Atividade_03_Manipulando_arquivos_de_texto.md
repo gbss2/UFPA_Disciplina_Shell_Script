@@ -226,7 +226,7 @@ Para editar o arquivo `draft.txt` recém-criado, você pode abri-lo novamente co
 
 Embora não possamos apontar e clicar para navegar pelo documento, podemos usar as teclas de seta para se mover. No entanto, navegar com as teclas de seta pode ser muito lento. Com o intuito de otimizar o uso, o Vim disponibiliza diversos atalhos (que são completamente não intuitivos, mas muito úteis à medida que você se acostuma com eles).
 
-Crie um novo arquivo chamado `code_poetry.txt` usando `vim`. Copie o texto abaixo, entre no *modo de inserção* e cole usando o comando `<kbd>Shift</kbd>+<kbd>Insert</kbd>`:
+Crie um novo arquivo chamado `code_poetry.txt` usando `vim`. Copie o texto abaixo, entre no *modo de inserção* e cole usando o comando <kbd>Shift</kbd>+<kbd>Insert</kbd>:
 
 ```perl
 BEFOREHAND: close door, each window & exit; wait until time.
