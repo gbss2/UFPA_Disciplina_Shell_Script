@@ -1,7 +1,7 @@
 
 ## Comandos úteis
 
-Como vimos nas atividades anteriores, os sistemas GNu?linux possuem vários programas que nos auxiliam na manipulação e edição de arquivos. É importante ter uma visão geral das ferramentas para aproveitar ao máximo os recursos disponíveis. Nesta atividade vamos conhecer (ou revistar) alguns comandos importantes, assim como suas opções mais comuns. 
+Como vimos nas atividades anteriores, os sistemas GNU/Linux possuem vários programas que nos auxiliam na manipulação e edição de arquivos. É importante ter uma visão geral das ferramentas para aproveitar ao máximo os recursos disponíveis. Nesta atividade vamos conhecer (ou revistar) alguns comandos importantes, assim como suas opções mais comuns. 
 
 ## SED (_Stream EDitor_)
 
