@@ -168,5 +168,81 @@ $ sed -n '/Mov10_oe/p' ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
 
 ### Transliteração
 
-O comando de transliteração irá 
+O comando de transliteração `y` permite a substituição de caracteres. Quando utilizado, cada caracter na linha que apresente correspondência será substituído por aquele indicado na instrução. A sintaxe para transliteração é semelhante à de substituição, sendo o comando `y` seguido por dois campos separados por barras `/`: `y/CARACTER_BUSCA/CARACTER_SUBSTITUIÇÃO/`. Para alterar todas ocorrências de `e` por `u`, podemos utilizar:
+
+```bash
+
+$ sed 'y/e/u/' ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
+
+```
+
+> Observe que para o comando `y` não é necessário utilizar a **_flag_** `g` após a terceira barra.
+
+É possível alterar mais de um caracter em um mesmo comando, por exemplo, para alterar `e` por `u` e `a` por `A` podemos:
+
+```bash
+
+$ sed 'y/ea/uA/' ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
+
+```
+
+> **IMPORTANTE:** Se mais de um caracter for utilizado no comando de transliteração, cada um deles será avaliado e modificado individualmente, ao contrário do que ocorre com o comando de substituição que usa toda a string para realizar a busca.
+
+***
+
+**Exercício 1**
+
+Que tal aplicarmos nossos conhecimentos em `sed` para converter um arquivo de _reads_ no formato FASTQ em um arquivo FASTA contendo a sequência complementar das reads? Parece complicado? Não se assuste, vamos dividir o problema para facilitar a resolução e apresentar dois novos recursos do `sed`.
+
+1) O primeiro recurso é o uso de padrões numéricos no endereço. É possível indicar ao `sed` certos padrões como, aplicar as alterações de 10 em 10 linhas, dentre outras possibilidades. Para imprimir todas os cabeçalhos de um arquivo FASTQ, podemos usar o comando a seguir. 
+
+```bash
+
+$ sed -n '1~4p' unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
+
+```
+
+E para imprimir as sequências, podemos usar:
+
+```bash
+
+$ sed -n '2~4p' unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
+
+```
+
+A instrução `1~4p` indica para o `sed` imprimir a primeira linha do arquivo e todas aquelas a cada 4 linhas (1, 5, 9, 13, ..., n+4). O padrão `2~4p` é iniciado na segunda linha e imprime esta e todas aquelas na posição +4 posteriores (2, 6, 10, 14, ..., n+4).
+
+Os dois comandos para impressão podem ser combinados utilizando o `;`.
+
+Uma parte do problema pode ser solucionada, pois agora sabemos como imprimir apenas as linhas de interesse do arquivo FASTQ.
+
+2) As sequências em arquivos FASTQ são iniciadas por um `@` enquanto as sequências em formato FASTA são iniciadas por `>`. Logo, para realizar a conversão de modo adequado devemos **substituir** todas as ocorrências de `@` no início da linha por `>`. Para este passo, lembre-se de usar o caracter que indica o início de linha, por exemplo, `^@`.
+
+Outra etapa da solução do problema foi esclarecida.
+
+3) Agora precisamos substituir as bases nucleotídicas por suas bases complementares. Para tal, podemos usar o comando de **transliteração** apenas nas linhas contendo  sequências (segunda linha). Para aplicar as modificações de troca de caracteres apenas nas linhas desejadas existem duas opções:
+
+a) Indicar o padrão numérico como apresentado na primeira etapa, por exemplo, `2~4`.
+
+b) Usar uma expressão regular para buscar quaisquer linhas que contenham caracteres além de **A, C, G, T e N**. Como ainda não aprendemos expressões regulares, esta não é a maneira ideal de solucionar o problema, mas é uma oportunidade de aprendermos como funciona a instrução `!` (ou negação).
+
+```bash
+
+$  sed -e '/[^ACGTN]/! y/ACGT/tgca/' unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
+
+```
+
+> A expressão regular `[^ACGTN]` indica que buscamos por quaisquer strings (ou linhas, neste caso) que contenham caracteres além dos representeados entre colchetes.
+
+Note que usamos `!` após a expressão regular `[^ACGTN]`, o uso da exclamação indica que desejamos o contrário do que está indicado no padrão. Por exemplo, o comando abaixo imprime apenas as linhas que não são iniciadas por `@`:
+
+```bash
+
+$  sed -n '/^@/!p' unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
+
+```
+
+Voilá, dispomos de todas as ferramentas necessárias para criar um script capaz de converter um arquivo FASTQ em FASTA e imprimir a sequência complementar. Tente agora unir todas estas etapas em uma única linha de comando para realizar a conversão!
+
+**IMPORTANTE** A ordem dos comandos importa, lembre-se que cada instrução é executada sequencialmente e uma dica é deixar a impressão (etapa 1) para o final.
 
