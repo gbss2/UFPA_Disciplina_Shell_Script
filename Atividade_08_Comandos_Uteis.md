@@ -27,7 +27,7 @@ $ sed [opções] [endereços] [comando] [arquivo]
 
 A seguir vamos aprender algumas operações básicas usando o comando `sed`.
 
-### _*REPLACEMENT*_
+### **Substituição**
 
 O uso mais comum para o `sed` é a busca e substituição de padrões, na qual buscamos por um determinado padrão na linha e este é então subsituído por um texto indicado pelo usuário.
 
@@ -46,16 +46,127 @@ As **_flags_** permitem controlar o processo de substituição, se nenhuma for i
 * `g` - global, substitui todas as ocorrências de `REGEXP`
 * `n` - número, indica a posição da ocorrência a ser substituída, por exemplo, se o número `2` for usado, apenas a segunda ocorrência de `REGEXP` será substituída.
 
-Vamos testar alguns tipos de substituições para que você possa se habituar ao uso do comando `sed`. Em primeiro lugar, verifique o conteúdo do arquivo `~/unix_lesson/other/Mov10_rnaseq_metadata.txt`.
+Vamos testar alguns tipos de substituições para que você possa se habituar ao uso do comando `sed`. Em primeiro lugar, verifique o conteúdo do arquivo `~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed`.
+
+```bash
+$ cat ~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed | head
+
+```
+
+> Os arquivos BED (_Browser Extensible Data_) são arquivos de texto delimitados por tabulações (**TSV**) que permitem a representação de anotações e informações genômicas. É constituído por três colunas mandatórias: 1a) Cromossomo; 2a) Posição Inicial; 3a) Posição Final. A demais colunas são opcionais e podem conter informações sobre elementos genômicos, por exemplo, poderíamos representar a posição de um gene desta forma: `chr11 5225464 5227071  HBB`.
+
+Agora vamos trocar a expressão `chr` por `chromossome`:
+
+```bash
+$ sed 's/chr/chromosome/g' ~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed
+
+```
+
+Observe que em todas as linhas o padrão "chr" foi substituído por "chromomose". Verifique o arquivo original novamente. As alterações foram salvas no arquivo?
+
+As alterações de `sed` ocorrem apenas no que é chamado de `pattern space`, logo, o arquivo original não é alterado. Para salvar as alterações devemos redirecioná-las para um novo arquivo.
+
+```bash
+$ sed 's/chr/chromosome/g' ~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed > chromosome_Encode.bed
+
+```
+Ao examinar o novo arquivo `chromosome_Encode.bed`, salvo no seu siretório atual, note que as alterações desta vez foram salvas. Outra opção para gravar as modificações é utilizar a opção `-i`:
+
+```bash
+$ sed -i 's/chromosome//g' chromosome_Encode.bed
+
+```
+
+No exemplo acima, realizamos a troca da expressão `chromossome` por uma string vazia, ou seja, deletamos o prefixo `chromosome` e mantemos apenas o valor numérico. Caso desejássemos retornar com o prefixo `chr`, bastaria usar o seguinte comando:
+
+```bash
+$ sed -i 's/^/chr/g' chromosome_Encode.bed
+
+```
+
+> O caracter `^` indica o início de uma string ou de uma linha em um arquivo com múltiplas linhas. No exemplo acima, o `sed` encontra a correspondência de cada início de linha e substitui pelo texto `chr`.
+
+Em um dos exemplos anteriorers, utilizamos o comando *substitute* `s` para remover um trecho de uma string, mas e se desejássemos remover linhas inteiras?
+
+Uma opção para deletar linhas em branco, é usar o comando abaixo, onde o caracter `$` é um marcador de fim de linha, logo, o padrão `^$` reconhece todas as linhas nas quais não há nenhum caracter entre o marcador de início e de fim de linha.
+
+```bash
+$ sed -i 's/^$//g' chromosome_Encode.bed
+
+```
+
+### **Deleção**
+
+Através do comando `d` é possível deletar linhas específicas a partir do `sed`. A sintaxe para deleção é um pouco diferente daquela utilizada para substituir. Confira abaixo a sintaxe usual para deleção de linhas:
+
+```bash
+$ sed [Endereço] ou [Padrão] d [Arquivo]
+
+```
+
+Vamos usar alguns exemplos para tornar mais claro o uso do comando `d`. Primeiro, vamos reexaminar o arquivo `~/unix_lesson/other/Mov10_rnaseq_metadata.txt`
 
 ```bash
 $ cat ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
 
 ```
+Agora vamos testar algumas instruções para deletar linhas deste arquivo. **ATENÇÃO** **NÃO utilize a opção `-i` para não sobrescrever o arquivo original!**
+
+Para deletar o cabeçalho do arquivo `Mov10_rnaseq_metadata.txt` podemos usar a expressão:
+
+```bash
+
+$ sed '1d' ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
+
+```
+
+Caso desejássemos remover as linhas 5 a 7, teríamos de indicar a linha de início e fim para deleção separadas por uma `,`, como no exemplo abaixo:
+
+```bash
+
+$ sed '5,7d' ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
+
+```
+
+E as linhas 1 e 5 a 7? Como faríamos?
+
+```bash
+
+$ sed '1d;5,7d' ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
+
+```
+
+Podemos separar múltiplos intervalos de linha usando o caracter ponto e vírgula `;`. Nesse caso, cada instrução de para deleção é separada por `;` como no exemplo acima. É possível usar `;` para aplicar múltiplos comandos, não apenas o `d` de deleção. A opção `-e` é outra forma de passar várias instruções em um mesmo comando `sed`, veja o mesmo exemplo, mas agora usando a opção `-e`:
+
+```bash
+
+$ sed -e 5,7d -e 1d ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
+
+```
+
+### **Impressão**
+
+Para imprimir uma linha específica, é possível usar os endereços, entranto, por padrão `sed` imprime todas as linhas, por isso precisamos desativar essa função usando a opção `-n`. Ao utilizar a opção `-n`, nenhum conteúdo será impresso. Ao utilizar a opção `-n` em conjunto com o comando `p`, podemos imprimir apenas as linhas que desejamos, por exemplo, para imprimir apenas as linhas 2 a 4:
 
 
+```bash
 
+$ sed -n '2,4p' ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
 
+```
 
+Note que é possível atingir o mesmo objetivo de diferentes maneiras, um método ainda não utilizado foi o uso de padrões de strings no endereço. Como conseguiríamos realizar a mesma ação usando um padrão de texto?
 
+```bash
+
+$ sed -n '/Mov10_oe/p' ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
+
+```
+
+> Sempre que quiser realizar alterações em linhas específicas usando um padrão de texto, utilize `/REGEXP/` antes do comando desejado. 
+> Para os comandos de substituição e de transliteração, o uso de `REGEXP` no endereço faz com que o `sed` realize duas buscas: a primeira para encontrar as linhas correspondentes ao endereço e a segunda busca para encontrar o padrão a ser substituído.
+
+### Transliteração
+
+O comando de transliteração irá 
 
