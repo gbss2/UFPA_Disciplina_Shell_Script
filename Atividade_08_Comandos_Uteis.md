@@ -22,6 +22,40 @@ $ sed [opções] [endereços] [comando] [arquivo]
 
 ```
 
+* **Endereços** são parâmetros que determinam em quais linhas os **comandos** serão aplicados. Os endereços podem ser numéricos (número(s) da(s) linha(s)), conter textos ou expressão regulares ou especificar intervalos (numéricos ou de coincidência de padrão).
+* **Comandos** correspondem às ações possíveis do programa, são determinadas por uma letra (por exemplo, `d` para deleção) e cada ação possui uma sintaxe específica.
+
+A seguir vamos aprender algumas operações básicas usando o comando `sed`.
+
 ### _*REPLACEMENT*_
 
-O uso mais comum para o `sed` é a busca e substituição de padrões. 
+O uso mais comum para o `sed` é a busca e substituição de padrões, na qual buscamos por um determinado padrão na linha e este é então subsituído por um texto indicado pelo usuário.
+
+A sintaxe de substituição é:
+
+```bash
+$ sed 's/REGEXP/REPLACEMENT/flag'
+
+```
+O argumento `s` representa o comando para realizar substituições no texo. Em geral, o comando `s` será seguido por três barras `/`, responsáveis por separar o padrão a ser buscado `REGEXP` e o texto de substituição `REPLACEMENT`. `REGEXP` pode ser um texto comum ou apresentar expressões regulares para generalizar os padrões de correspondência.
+
+> As barras `/` podem ser substituídas por outros caracteres, tais como, dois pontos `:`, pipe `|` e sublinhado `_`. A menos que a troca por estes caracteres torne mais simples a visualização da expressão, prefira o uso convencional com barras `/`.
+
+As **_flags_** permitem controlar o processo de substituição, se nenhuma for indicada, apenas a primeira ocorrência do padrão `REGEXP` é substituída. Dentre as opções de **_flags_** mais comuns, temos:
+
+* `g` - global, substitui todas as ocorrências de `REGEXP`
+* `n` - número, indica a posição da ocorrência a ser substituída, por exemplo, se o número `2` for usado, apenas a segunda ocorrência de `REGEXP` será substituída.
+
+Vamos testar alguns tipos de substituições para que você possa se habituar ao uso do comando `sed`. Em primeiro lugar, verifique o conteúdo do arquivo `~/unix_lesson/other/Mov10_rnaseq_metadata.txt`.
+
+```bash
+$ cat ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
+
+```
+
+
+
+
+
+
+
