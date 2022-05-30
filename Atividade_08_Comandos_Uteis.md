@@ -214,9 +214,9 @@ A instrução `1~4p` indica para o `sed` imprimir a primeira linha do arquivo e 
 
 Os dois comandos para impressão podem ser combinados utilizando o `;`.
 
-Uma parte do problema pode ser solucionada, pois agora sabemos como imprimir apenas as linhas de interesse do arquivo FASTQ.
+Uma parte do problema foi solucionada, pois agora sabemos como imprimir apenas as linhas de interesse do arquivo FASTQ.
 
-2) As sequências em arquivos FASTQ são iniciadas por um `@` enquanto as sequências em formato FASTA são iniciadas por `>`. Logo, para realizar a conversão de modo adequado devemos **substituir** todas as ocorrências de `@` no início da linha por `>`. Para este passo, lembre-se de usar o caracter que indica o início de linha, por exemplo, `^@`.
+2) As sequências em arquivos FASTQ são iniciadas por um `@` enquanto as sequências em formato FASTA são iniciadas por `>`. Logo, para realizar a conversão de modo adequado, devemos **substituir** todas as ocorrências de `@` no início da linha por `>`. Para este passo, lembre-se de usar o caracter que indica o início de linha, por exemplo, `^@`.
 
 Outra etapa da solução do problema foi esclarecida.
 
