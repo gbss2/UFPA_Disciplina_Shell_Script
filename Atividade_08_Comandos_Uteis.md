@@ -248,7 +248,7 @@ Voilá, dispomos de todas as ferramentas necessárias para criar um script capaz
 
 ***
 
-## **SORT** e **UNIQ**
+## **SORT**
 
 O comando `sort` possibilita ordenar - alfabeticamente ou numericamente - as linhas de um ou mais arquivos. Por padrão, todo o input é avaliado para a ordenação e espaços em branco são considerados separadores de campos. Algumas opções estão disponíveis para customizar o funcionamento deste comando, como veremos a seguir.
 
@@ -278,7 +278,7 @@ $  sort -k1 -V  ~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed | head
 ```
 Agora o ordenamento das três colunas funcionou como o desejado! A opção `-k 1` indica ao `sort` qual coluna ele deve usar como referência para realizar a ordenação, no exemplo acima, instruímos o programa a ordernar a partir da primeira coluna. Abaixo veja uma tabela com as principais opções do comando `sort`.
 
-**Principais opções para o programa _SORT_**
+**Principais opções para o programa SORT**
 |     Opção    |                          Descrição                        |
 |:------------:|:---------------------------------------------------------:|
 |       -n     |     Ordena numericamente                                  |
@@ -291,6 +291,25 @@ Agora o ordenamento das três colunas funcionou como o desejado! A opção `-k 1
 |      -h      | Ordena valores human-readable (5K, 1G)                    |
 |      -M      | Ordena por meses                                          |
 
+
+## **Cut**
+
+O comando extrai campos ou trechos de um arquivo. É possível realizar a extração do conteúdo indicando as colunas de interesse, e caso as colunas não estejam separadas por tabulações, é necessário indicar a espécie de delimitador, por exemplo, `,`, `:`, `-`, dentre outros. A opção para selecionar o campo/coluna é `-f`(_field_) e o delimitador é indicado através da opção `-d`.
+
+
+
+
+
+
+## **Uniq**
+
+O comando `uniq` é capaz de identificar e excluir duplicatas em linhas consecutivas. Devido à necessidade de que as linhas repretidas sejam adjacentes, em geral, é utilizado após o comando `sort`. Algumas versões de `sort` possuem a opção `-u` que também permite a exclusão de linhas repetidas, desta forma, uma das principais vantagens do comando `uniq` é identificar e imprimir replicatas usando a opção `-d` ou então contar o numéro de duplicatas existente no arquivo. 
+
+
+
+**Exercício 2**
+
+É possível contar o número de elementos gênicos presentes em cada cromossomo no arquivo `~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed`? 
 
 
 
