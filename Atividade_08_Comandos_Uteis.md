@@ -198,7 +198,7 @@ Que tal aplicarmos nossos conhecimentos em `sed` para converter um arquivo de _r
 
 ```bash
 
-$ sed -n '1~4p' unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
+$ sed -n '1~4p' ~/unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
 
 ```
 
@@ -206,7 +206,7 @@ E para imprimir as sequências, podemos usar:
 
 ```bash
 
-$ sed -n '2~4p' unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
+$ sed -n '2~4p' ~/unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
 
 ```
 
@@ -228,7 +228,7 @@ b) Usar uma expressão regular para buscar quaisquer linhas que contenham caract
 
 ```bash
 
-$  sed -e '/[^ACGTN]/! y/ACGT/tgca/' unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
+$  sed -e '/[^ACGTN]/! y/ACGT/tgca/' ~/unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
 
 ```
 
@@ -238,7 +238,7 @@ Note que usamos `!` após a expressão regular `[^ACGTN]`, o uso da exclamação
 
 ```bash
 
-$  sed -n '/^@/!p' unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
+$  sed -n '/^@/!p' ~/unix_lesson/raw_fastq/Mov10_oe_1.subset.fq | head
 
 ```
 
@@ -337,12 +337,70 @@ A ferramenta `cut` é muito poderosa para trechos de arquivos, nesta atividade, 
 
 O comando `uniq` é capaz de identificar e excluir duplicatas em linhas consecutivas. Devido à necessidade de que as linhas repretidas sejam adjacentes, em geral, é utilizado após o comando `sort`. Algumas versões de `sort` possuem a opção `-u` que também permite a exclusão de linhas repetidas, desta forma, uma das principais vantagens do comando `uniq` é identificar e imprimir replicatas usando a opção `-d` ou então contar o numéro de duplicatas existente no arquivo. 
 
+Como exemplo, podemos contar o número de replicatas para cada tipo celular no arquivo `~/unix_lesson/raw_fastq/Mov10_oe_1.subset.fq`
 
+```bash
+
+$  cut -f2 unix_lesson/other/Mov10_rnaseq_metadata.txt | uniq -c
+
+```
+
+Quantas replicatas temos para cada tipo celular? São 3 replicatas. Note que primeiro foi necessaário extrair a coluna de interesse usando `cut`, para então aplicar o comando `uniq`. Neste caso, não foi necessário usar o comando `sort` pois as linhas as duplicatas da segunda coluna eram adjacentes.
+
+**Opções mais usuais para o comando uniq**
+|     Opção    |                        Descrição                       |
+|:------------:|:------------------------------------------------------:|
+|       -i     |     Ignora diferença entre maiúscula e   minúsculas    |
+|       -d     |     Mostra apenas as linhas duplicadas                 |
+|       -u     |     Mostras apenas as que são únicas                   |
+|       -c     |     Conta o número de repetições                       |
+
+
+***
 
 **Exercício 2**
 
-É possível contar o número de elementos gênicos presentes em cada cromossomo no arquivo `~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed`? 
+No exemplo anterior, devido ao tamho do arquivo, não era difícil calcular o número de elementos repetidos visualemente, mas para arquivos um pouco maiores, essa tarefa se torna cada vez mais demorada e propensa a erros. Por isso, o ideal é utilizar a "caixa de ferramentas" que o GNU/Linux nos proporciona. 
+
+Neste exercício, sua tarefa é contar o número de elementos gênicos presentes em cada cromossomo no arquivo `~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed`. 
+
+Quantos elementos genômicos temos nos cromossomos X, Y e MT?
+
+***
+
+## Xargs (eXtended ARGumentS)
+
+O comando `xargs` é extremamente útil para executar programas a partir de uma lista de arquivos. Ele funciona como um gerenciador dos argumentos que serão repassados à um programa para execução. 
+
+A sintaxe básica de `xargs` é:
+
+```bash
+
+$  xargs [opções] [comando [argumentos iniciais]]
+
+```
+
+Vamos começar por um exemplo bem simples, contar o número de linhas em cada arquivo contido na pasta `~/unix_lesson/raw_fastq`.
 
 
+```bash
+$  cd ~/unix_lesson/raw_fastq
 
+$  ls  | xargs wc -l
+```
 
+> Note que foi necessário mover-se até a pasta para realizar a contagem. Isso ocorre porque o comando `xargs` busca os arquivos no caminho especificado (relativo ou absoluto) e como o comando `ls` retorna apenas o nome do arquivo e não o caminho, `xargs` irá repassar apenas o nome do arquivo ao comando `wc -l`. Caso o diretório atual não seja o mesmo da localização dos arquivos, o comando `wc -l` não encontrará os arquivos listados. Existem algumas opções para evitar esse tipo de situação, por exemplo, usar o comando `find` (aprenderemos mais sobre ele em uma outra atividade) ou utilizar os caminhos absolutos.
+
+Uma situação de uso comum para `xargs` é quando desejamos criar um _back-up_ (ou cópias) de vários arquivos contidos em uma determinada pasta, ou listados em um arquivo de texto. 
+
+Verifique o conteúdo da pasta `/data/2022_shell_script/unix_lesson/other/random_files`, há 8 arquivos sem qualquer padrão comum para utilizarmos caracteres-coringa (_wildcards_). Mas podemos copiar cada um desses arquivos usando apenas uma linha de comando, como a seguir:
+
+```bash
+
+$  find /data/2022_shell_script/unix_lesson/other/random_files | xargs -i cp {} .
+
+```
+
+Traduzindo o comando acima, o comando `find` irá gerar uma lista de todo o conteúdo da pasta `random_files` usando caminhos absolutos, então esses arquivos serão  repassados ao `xargs` um-a-um, o argumento `-i` indica ao `xargs` para trocar a string `{}` pelo argumento da vez (no caso o arquivo com o caminho absoluto) e, por fim, o `.` indica o local cópia - o diretório atual do usuário.
+
+Outra vantagem de `xargs` é a possibilidade de executar comandos em paralelo através da opção `-P` seguida do número de execuções em paralelo desejada.
