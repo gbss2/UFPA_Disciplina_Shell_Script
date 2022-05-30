@@ -364,7 +364,7 @@ No exemplo anterior, devido ao tamho do arquivo, não era difícil calcular o n�
 
 Neste exercício, sua tarefa é contar o número de elementos gênicos presentes em cada cromossomo no arquivo `~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed`. 
 
-Quantos elementos genômicos temos nos cromossomos X, Y e MT?
+Quantos elementos genômicos temos nos cromossomos X e Y?
 
 ***
 
