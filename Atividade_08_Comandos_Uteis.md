@@ -389,7 +389,7 @@ $  cd ~/unix_lesson/raw_fastq
 $  ls  | xargs wc -l
 ```
 
-> Note que foi necessário mover-se até a pasta para realizar a contagem. Isso ocorre porque o comando `xargs` busca os arquivos no caminho especificado (relativo ou absoluto) e como o comando `ls` retorna apenas o nome do arquivo e não o caminho, `xargs` irá repassar apenas o nome do arquivo ao comando `wc -l`. Caso o diretório atual não seja o mesmo da localização dos arquivos, o comando `wc -l` não encontrará os arquivos listados. Existem algumas opções para evitar esse tipo de situação, por exemplo, usar o comando `find` (aprenderemos mais sobre ele em uma outra atividade) ou utilizar os caminhos absolutos.
+> Note que foi necessário mover-se até a pasta para realizar a contagem. Isso ocorre porque o comando `xargs` busca os arquivos no caminho especificado (relativo ou absoluto) e como o comando `ls` retorna apenas o nome do arquivo e não o caminho, `xargs` irá repassar apenas o nome do arquivo ao comando `wc -l`. Caso o diretório atual não seja o mesmo da localização dos arquivos, o comando `wc -l` não encontrará os arquivos listados. Existem algumas opções para evitar esse tipo de situação, por exemplo, utilizar o caminho absoluto ou relativo dos diretórios contendo os arquivos.
 
 Uma situação de uso comum para `xargs` é quando desejamos criar um _back-up_ (ou cópias) de vários arquivos contidos em uma determinada pasta, ou listados em um arquivo de texto. 
 
@@ -401,6 +401,6 @@ $  find /data/2022_shell_script/unix_lesson/other/random_files | xargs -i cp {} 
 
 ```
 
-Traduzindo o comando acima, o comando `find` irá gerar uma lista de todo o conteúdo da pasta `random_files` usando caminhos absolutos, então esses arquivos serão  repassados ao `xargs` um-a-um, o argumento `-i` indica ao `xargs` para trocar a string `{}` pelo argumento da vez (no caso o arquivo com o caminho absoluto) e, por fim, o `.` indica o local cópia - o diretório atual do usuário.
+Traduzindo o comando acima, o comando `find` irá gerar uma lista de todo o conteúdo da pasta `random_files`, então esses arquivos serão  repassados ao `xargs` um-a-um, o argumento `-i` indica ao `xargs` para trocar a string `{}` pelo argumento da vez e, por fim, o `.` indica o local cópia - o diretório atual do usuário.
 
 Outra vantagem de `xargs` é a possibilidade de executar comandos em paralelo através da opção `-P` seguida do número de execuções em paralelo desejada.
