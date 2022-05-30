@@ -248,7 +248,7 @@ Voilá, dispomos de todas as ferramentas necessárias para criar um script capaz
 
 ***
 
-## **SORT**
+## **Sort**
 
 O comando `sort` possibilita ordenar - alfabeticamente ou numericamente - as linhas de um ou mais arquivos. Por padrão, todo o input é avaliado para a ordenação e espaços em branco são considerados separadores de campos. Algumas opções estão disponíveis para customizar o funcionamento deste comando, como veremos a seguir.
 
@@ -296,9 +296,41 @@ Agora o ordenamento das três colunas funcionou como o desejado! A opção `-k 1
 
 O comando extrai campos ou trechos de um arquivo. É possível realizar a extração do conteúdo indicando as colunas de interesse, e caso as colunas não estejam separadas por tabulações, é necessário indicar a espécie de delimitador, por exemplo, `,`, `:`, `-`, dentre outros. A opção para selecionar o campo/coluna é `-f`(_field_) e o delimitador é indicado através da opção `-d`.
 
+Para aprender o funcionamento do comando `cut`, precisamos copiar um novo arquivo para o nosso diretório `$HOME` ou `~`.
 
 
+```bash
 
+$  cp /data/2022_shell_script/unix_lesson/other/chars.txt ~ 
+
+```
+
+Examine o arquivo para identificar o padrão de separação dos campos e o número de colunas. Você perceberá que os campos são separados por `,` (vírgulas) e há 4 campos no arquivo. Como faríamos para selecionar as colunas dois e três do arquivo `chars.txt`? Bem, podemos usar as opções `-d` para delimitador e `-f` para campos:
+
+```bash
+
+$  cut -d, -f2,3 chars.txt
+
+```
+
+A ferramenta `cut` é muito poderosa para trechos de arquivos, nesta atividade, nos limitaremos a aprender sobre a extração de colunas, mas saiba que existem outras formas de proceder, usando caracteres ou bytes. Nas tabelas abaixo, são listadas as opções mais comuns para `cut`.
+
+**Principais opções para o comando cut**
+|     Opção    |                       Descrição                      |
+|:------------:|:----------------------------------------------------:|
+|       -d     |     Delimitador de campo (tabulação é o   padrão)    |
+|       -f     |     Extrai os seguintes campos ou colunas            |
+|       -c     |     Extrai os seguintes caracteres                   |
+
+**Modos de representar os campos ou caracteres para extração**
+|     -f / -c    |        Abrange       |                      Descrição                     |
+|:--------------:|:--------------------:|:--------------------------------------------------:|
+|       2,5      |        2 e   5       |     Segundo e quinto                               |
+|       2-5      |        2 a   5       |     Do segundo ao quinto                           |
+|        2-      |     2 3   4 5 ...    |     Do segundo em frente                           |
+|        -5      |      1 2   3 4 5     |     Até o quinto                                   |
+|       2,5-     |     2 5   6 7 ...    |     O segundo e do quinto em diante                |
+|     2,3,5-8    |     2 3   5 6 7 8    |     O segundo, terceiro e do quinto ao   oitavo    |
 
 
 ## **Uniq**
