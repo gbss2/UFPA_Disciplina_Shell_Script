@@ -246,3 +246,52 @@ Voilá, dispomos de todas as ferramentas necessárias para criar um script capaz
 
 **IMPORTANTE** A ordem dos comandos importa, lembre-se que cada instrução é executada sequencialmente e uma dica é deixar a impressão (etapa 1) para o final.
 
+***
+
+## **SORT** e **UNIQ**
+
+O comando `sort` possibilita ordenar - alfabeticamente ou numericamente - as linhas de um ou mais arquivos. Por padrão, todo o input é avaliado para a ordenação e espaços em branco são considerados separadores de campos. Algumas opções estão disponíveis para customizar o funcionamento deste comando, como veremos a seguir.
+
+A sintaxe de `sort` é:
+
+
+```bash
+
+$  sort [OPTION]... [FILE]
+
+```
+
+Vamos iniciar ordenando o arquivo `~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed`.
+
+```bash
+
+$  sort ~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed |  head
+
+```
+
+Note que o cromossomo nas primeiras posições é o `chr10`. Mesmo que usássemos a opção `-n` para ordenar numericamente, o resultado seria o mesmo (você pode tentar se quiser). Entretanto, versões mais atuais do `sort` dispõe da opção `-V` que permite ordenar alfanumericamente. Vamos ordenar usando esta opção:
+
+```bash
+
+$  sort -k1 -V  ~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed | head
+
+```
+Agora o ordenamento das três colunas funcionou como o desejado! A opção `-k 1` indica ao `sort` qual coluna ele deve usar como referência para realizar a ordenação, no exemplo acima, instruímos o programa a ordernar a partir da primeira coluna. Abaixo veja uma tabela com as principais opções do comando `sort`.
+
+**Principais opções para o programa _SORT_**
+|     Opção    |                          Descrição                        |
+|:------------:|:---------------------------------------------------------:|
+|       -n     |     Ordena numericamente                                  |
+|       -r     |     Ordem reversa (Z a A; 9   a 0)                        |
+|       -k     |     Ordena pela coluna indicada em k                      |
+|       -t     |     Separador de campo/coluna (padrão é   tabulação)      |
+|       -u     |     Exclui duplicatas                                     |
+|       -f     |     Ignora a diferença entre maiúsculas e   minúsculas    |
+|      -V      | Ordena alfanumericamente                                  |
+|      -h      | Ordena valores human-readable (5K, 1G)                    |
+|      -M      | Ordena por meses                                          |
+
+
+
+
+
