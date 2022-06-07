@@ -148,6 +148,7 @@ $ awk -F"," ' BEGIN {OFS="\t"; print "Char1","Char2"} {print $2, $4, "Número de
 $ awk -F"," ' BEGIN {OFS="\t"; V=2; print "Char1","Char2"} {print $2, $4, NF-V}' chars.txt
 
 ```
+
 #### Resumo das variáveis associadas a colunas
 
 * **$0** Imprime toda a linha
@@ -157,8 +158,100 @@ $ awk -F"," ' BEGIN {OFS="\t"; V=2; print "Char1","Char2"} {print $2, $4, NF-V}'
 * **NF** Indica o número de campos presentes na linha atual
 
 
+### Linhas (ou registros)
+
+Assim como ocorre com os campos, existem variáveis específicas para registrar o número das linhas e é possível alterar a forma como **AWK** reconhece cada registro (ou linha). Por padrão, a quebra de linha é demarcada pelo caracter de escape `\n`, entretanto este delimitador pode ser alterado através da variável de separador de registro `RS` (_Record Separator_). O novo separador de linha pode assumir qualquer valor, inclusive fazer uso de expressões regulares e deve ser determinado no bloco `BEGIN`.
+
+Outras variáveis nativas envolvendo a contagem de registros são:
+
+* **NR** Variável que indica o número da linha sendo processada
+* **FNR** Variável que indica o número da linha sendo processada no arquivo atual (para os casos onde houver mais de um arquivo de input)
+* **ORS** Variável que determina o tipo de delimitador para cada registro, por padrão assume o valor do caracter de escape `/n`.
+
+Se desejássemos imprimir o número de cada uma das linhas, bastaria incluir a variável `NR`, como no exemplo abaixo:
+
+```bash
+$ awk -F"," '{print NR, $2, $4}' chars.txt
+
+```
+
+***
+
+**Exercício 1**
+
+1. Execute os comandos abaixo e descreva os resultados obtidos. Há alguma diferença?
+
+```bash
+
+$ awk '{print}' ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
+
+$ awk '{print $0}' ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
+
+$ awk '{print $1, $2}' ~/unix_lesson/other/Mov10_rnaseq_metadata.txt
+
+```
+2. Para o mesmo arquivo dos exemplos acima, imprima o número da linha na primeira coluna e o número de campos na última coluna.
+
+3. Agora, para o mesmo arquivo, defina `;` como separador de campos de saída (**OFS**).
+
+***
 
 
+## Filtrando dados 
+
+Quando você deseja testar se uma linha será processada por um bloco de ação ou não, você dispõe de várias opções. Por exemplo:
+
+1. Corresponder a uma expressão regular em qualquer lugar da linha:
+
+```bash
+$ awk '/TNF/ {print $0}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+
+2. Corresponder a uma expressão regular em uma coluna específica:
+
+```bash
+$ awk '$10 ~ /TLR/ {print $0}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+
+3. Usar o operador de igualdade `==` para encontrar uma correspondência exata de uma string ou número:
+
+```bash
+$ awk '$3 == "start_codon" {print $0}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+
+4. Usar operadores de comparação, tais como, `<`, `<=`, `>`, `>=` e `!=` para comparar uma string (ordem alfabética) ou número:
+
+```bash
+$ awk '$2 > 17111983 {print $0}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+
+5. Testar o valor de uma varável definida pelo usuário: 
+
+```bash
+$ awk 'BEGIN {gene_id="SSU72"} $10 ~ gene_id {print gene_id, $0}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+
+6. Testar o valor de uma variável interna:
+
+```bash
+$ awk 'NR > 5000 {print NR, $0}' unix_lesson/reference_data/chr1-hg19_genes.gtf
+
+```
+
+A execução ou não da ação ocorre de acordo com o resultado do teste. Caso o teste seja positivo (retorne TRUE), a instrução posterior é executada, caso o resultado seja negativo (retorne FALSE), nada acontece. Um ou mais testes podem ser agrupados através de expressões booleanas, tais como, `||` que representa **ou**/**or**, `&&` que significa **e**/**and** e `!` que representa uma negação, **não**/**not**.
+
+Vamos aplicar uma série de testes de comparação em um mesmo programa:
+
+```bash
+$ awk 'NR > 5000 && NR < 5050 && ($3 == "start_codon" || $10 != "\"UBE4B\";") {print NR, $0}' unix_lesson/reference_data/chr1-hg19_genes.gtf
+
+```
+O programa acima filtra todas as linhas de número maior que 5000 **E** menor que 5050 **E** que o terceiro campo contenha a palavra **start_codon** ou que o décimo campo seja diferente de **"UBE4B";**. Note algumas coisas importantes no comando acima: i) a terceira e a quarta expressão encontram-se entre parênteses - isso significa que elas formam um grupo que será avaliado em conjunto - caso não estivessem entre parênteses, o resultado retornado seria diferente porque a última expressão é um **OU DIFERENTE DE "UBE4B";**, que no caso, poderia corresponder a qualquer gene no arquivo que não  _UBE4B_. Ao usarmos os parênteses, asseguramos que a terceira e quarta expressão só serão avaliadas caso as duas primeiras sejam verdadeiras. A correta utilização de parênteses para separar expressões é importante não só por tornar o conjunto de expressões mais legível, mas também por alterar a forma como os testes são avaliados. ii) note que utilizamos `\` uma barra invertida antes das aspas dupla na string "UBE4B";, esse recurso é necessário para diferenciar o caracter de delimitação de strings usado pelo **AWK** de uma aspas dupla literal.
 
 
 
