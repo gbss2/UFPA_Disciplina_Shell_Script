@@ -331,6 +331,13 @@ awk '{ if($3 == "CDS") {
 |                  |                               |
 |         =        |     Atribuição (variáveis)    |
 
+As operações matemáticas podem envolver os valores contidos nas colunas, por exemplo, é possível somar os campos 1 e 2 desta forma: `$1 + $2`. Como exemplo, vamos calcular o tamanho de cada um dos elementos gênicos presentes no arquivo `~/unix_lesson/reference_data/chr1-hg19_genes.gtf`.
+
+```bash
+$ awk '{ print $10, $3, $5-$4 }' unix_lesson/reference_data/chr1-hg19_genes.gtf | head 
+
+```
+
 **Funções matemáticas**
 |     Função    |            Descrição           |
 |:-------------:|:------------------------------:|
@@ -338,6 +345,7 @@ awk '{ if($3 == "CDS") {
 |      rand     |     Número aleatório (0, 1)    |
 |      sqrt     |          Raiz-quadrada         |
 |       int     |             Integer            |
+
 
 
 Na tabela abaixo são mostradas algumas das funções nativas de **AWK** para manipulação de strings:
@@ -354,7 +362,84 @@ Na tabela abaixo são mostradas algumas das funções nativas de **AWK** para ma
 |     tolower    |                     tolower(string)                   |                Todas minúsculas               |
 |     toupper    |                     toupper(string)                   |                Todas maiúsculas               |
 
+Alguns exemplos de uso das funções para manipulação de strings:
 
+* length(n): retorna o número de caracteres da variável `n`
+
+```bash
+$ awk '{print $10, length($10)-3}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+
+* substr(s, m, n): retorna a parte da string `s` que começa na posição `m` (contada a partir de 1) e tem `n` caracteres
+
+```bash
+$ awk '{print $10, substr($10,2,length($10)-3)}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+
+* sub(r, t, s): substitui a string `t` pela primeira ocorrência da expressão regular `r` na string `s`. Se `s` não for fornecido, $0 será usado.
+
+```bash
+$ awk '{print $10, sub(";","",$10), $10}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+> Note que para `sub`e `gsub` é retornado o número de substituições e não a string alterada, para recuperar o valor da variável modificada, é necessário imprimir o valor da variável.
+
+* gsub(r, t, s): substitui todas (em vez de apenas a primeira) ocorrências da expressão regular `r` na string `s`.
+
+```bash
+$ awk '{print $10, gsub("\"","",$10), $10}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+* split(s, a, r): divide a string `s` em uma variável de array chamada `a` nas ocorrências da expressão regular `r`. A função retorna o número de partes em que a string foi dividida. Depois, cada parte da string pode ser acessada como a[1], a[2], e assim por diante.
+
+```bash
+$ awk 'BEGIN{ORS=""} /start_codon/ {n=split($3,a,"_"); for(i=1;i<=n;i++) printf ("%s ", a[i]); print $10, $3, "\n"}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+> O exemplo acima nos mostra algumas maneiras de manipular a impressão do output em **AWK**. No bloco `BEGIN` indicamos o separador de registros como vazio para impedir que **AWK** insira quebras de linha automaticamente. Após o `for`, utilizamos a função `printf` para customizar a impressão do outupt, nesse caso, cada item do array será impresso separado por um espaço - a função `print` por padrão adiciona quebras de linha ao final da execução. E, por fim, no último bloco, são impressos os valores dos campos `$3`, `$10` e o caracter de escape de quebra de linha `\n`. Note que a mesma impressão poderia ter sido escrita de maneira mais sucinta, como no exemplo abaixo:
+
+```bash
+$ awk 'BEGIN{OFS="\t"} /start_codon/ {n=split($3,a,"_"); for(i=1;i<=n;i++) printf "%s\t", a[i]; print $10, $3}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+
+## ARRAYs
+
+Em **AWK**, os arrays são implementados como arrays associativos. Assim, em vez de serem arrays com elementos indexados (e acessados) por números naturais (ou seja, array[1], array[2], etc.), os arrays são indexados por qualquer string. Isso às vezes é chamado de hash. Isso permite que valores de strings sejam associados aos indíces, por exemplo:
+
+```bash
+n[$1]++
+
+```
+Essa expressão determina que o valor de um seja adicionado ao elemento do array `n` que está associado à chave $1. Isso pode ser bastante útil para contar as ocorrências de diferentes strings ou valores em um arquivo ou coluna. Para acessar os valores, ao término do processamento do arquivo, você precisa acessar as chaves do array e imprimir os valores de cada uma. Você percorrer os elementos de um array usando a estrura de iteração `FOR`:
+
+```bash
+for (i in array)
+
+```
+
+Onde `for` e `in` são palavras-chave, `i` é variável genérica que assumirá o valor de cada um dos elementos contidos no `array`. Infelizmente, você não tem controle sobre a ordem em que as diferentes chaves do array são visitadas! Exemplo:
+
+Podemos contar o número de elementos gênicos para cada gene contido no arquivo `~/unix_lesson/reference_data/chr1-hg19_genes.gtf` da seguinte maneira:
+
+```bash
+$ awk '{genes[$10]++} END {for(gene in genes) print gene, genes[gene]' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+
+***
+
+**Exercício 3**
+
+A partir do arquivo `~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed` e usando **AWK**, determine:
+
+1. Quantos elementos genômicos existem para cada cromossomo representado no arquivo?
+
+2. Determine o tamanho de cada elemento gênico para as primeiras 10 linhas do arquivo.
+
+***
 
 
 
