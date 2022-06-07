@@ -9,7 +9,7 @@ Uma das maiores virtudes de `AWK` é permitir ao usuário manipular arquivos de 
 
 Através da linguagem **AWK** você será capaz de criar programas muito úteis, usando apenas uma ou duas linhas. Dentre os usos típicos estão o processamento de arquivos de texto, a criação de relatórios ou sumários de dados, realização de operações envolvendo _strings_ e cálculos aritméticos. Obs: Assim como **SED**, é possível escrever longos programas usando **AWK**, entretanto, para tarefas complexas é recomendado desenvolver programas em outras linguagens, tais como, **Perl** e **Python**.
 
-### SINTAXE
+### Sintaxe
 
 **AWK** segue o paradigma _*pattern action*_, logo, qualquer programa escrito usando esta linguagem irá realizar uma busca por uma expressão regular e uma ação. 
 
@@ -117,6 +117,48 @@ $ awk -F";" '<condition> {action}' <FILE>
 
 Você pode acessar os diferentes campos separados por **AWK** usando um `$` seguido pelo número da coluna, por exemplo, $1, $2, $3, … , $N. O valor especial $0 denota a linha inteira, não apenas um de seus campos. (Observe que se você der a ação print sem nenhum argumento, isso também imprimirá a linha inteira.) A variável `NF` indica o número de colunas e pode ser usada em conjunto com `$`, onde `$NF` denota a última coluna.
 
-Suponha que seja do nosso interesse ler o arquivo `chars.txt` e imprimir a segunda e a última coluna. 
+Suponha que seja do nosso interesse ler o arquivo `chars.txt` e imprimir a segunda e a última coluna. Como faríamos?
+
+```bash
+$ awk -F"," '{print $2, $4}' chars.txt
+
+# Outra maneira usando NF
+$ awk -F"," '{print $2, $NF}' chars.txt
+
+```
+
+A instrução `print` imprime o valor das variáveis para o `STDOUT` e você pode redirecionar o output para um arquivo através do `>`. Observe que o delimitador no output foi alterado e não mais corresponde à vírgulas, os campos agora são separados pelo separador do campo de saída (_Output Field Separator_) que, por padrão, é um espaço único. Entretanto, você pode definir o delimitador do output usando a variável OFS. Esta variável pode ser definida no bloco `BEGIN` ou após o script, veja abaixo:
+
+```bash
+$ awk -F"," 'BEGIN {OFS=";"} {print $2, $4}' chars.txt
+
+# Outra maneira
+$ awk -F"," '{print $2, $4}' OFS=";" chars.txt
+
+```
+
+Repare que há uma vírgula entre os argumentos da impressão `print $2, $4`, é isso o que determina os campos de saída, em outras palavras, quais colunas o outupt terá. Se você usar um espaço, e não uma vírgula, não haverá nada impresso entre as duas colunas do output e as strings serão impressas juntas. Além dos campos determinados pelas variáveis `$`, também é possível imprimir variáveis definidas pelo usuário, strings e números. 
+
+```bash
+
+$ awk -F"," ' BEGIN { OFS=";"; print "Char1","Char2"} {print $2, $4}' chars.txt
+
+$ awk -F"," ' BEGIN {OFS="\t"; print "Char1","Char2"} {print $2, $4, "Número de campos=", NF}' chars.txt
+
+$ awk -F"," ' BEGIN {OFS="\t"; V=2; print "Char1","Char2"} {print $2, $4, NF-V}' chars.txt
+
+```
+#### Resumo das variáveis associadas a colunas
+
+* **$0** Imprime toda a linha
+* **$1, $2, ..., $N** Imprime as colunas selecionadas
+* **FS (_Field Separator_)** Indica o delimitador das colunas no arquivo de entrada
+* **OFS (_Output Field Separator_)** Indica o delimitador das colunas no arquivo de saída
+* **NF** Indica o número de campos presentes na linha atual
+
+
+
+
+
 
 
