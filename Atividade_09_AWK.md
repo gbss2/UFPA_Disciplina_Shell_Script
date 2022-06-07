@@ -254,4 +254,107 @@ $ awk 'NR > 5000 && NR < 5050 && ($3 == "start_codon" || $10 != "\"UBE4B\";") {p
 O programa acima filtra todas as linhas de número maior que 5000 **E** menor que 5050 **E** que o terceiro campo contenha a palavra **start_codon** ou que o décimo campo seja diferente de **"UBE4B";**. Note algumas coisas importantes no comando acima: i) a terceira e a quarta expressão encontram-se entre parênteses - isso significa que elas formam um grupo que será avaliado em conjunto - caso não estivessem entre parênteses, o resultado retornado seria diferente porque a última expressão é um **OU DIFERENTE DE "UBE4B";**, que no caso, poderia corresponder a qualquer gene no arquivo que não  _UBE4B_. Ao usarmos os parênteses, asseguramos que a terceira e quarta expressão só serão avaliadas caso as duas primeiras sejam verdadeiras. A correta utilização de parênteses para separar expressões é importante não só por tornar o conjunto de expressões mais legível, mas também por alterar a forma como os testes são avaliados. ii) note que utilizamos `\` uma barra invertida antes das aspas dupla na string "UBE4B";, esse recurso é necessário para diferenciar o caracter de delimitação de strings usado pelo **AWK** de uma aspas dupla literal.
 
 
+***
+
+**Exercício 2**
+
+1. Os genes codificantes para receptores olfativos, em geral, são iniciados pelas letras `OR`. Quantos códons de parada (_stop_codons_) para genes de receptores olfativos existem no arquivo `unix_lesson/reference_data/chr1-hg19_genes.gtf`?
+
+2. Quantos exons possui o gene _TLR5_?
+
+***
+
+
+## Executando ações
+
+**AWK** é uma linguagem de programação completa e dispõe de muitos recursos para a escrita de códigos concisos e muito úteis. Diferentes instruções podem ser definidas em linhas separadas, especialmente quando escrevemos códigos em arquivos, ou então, podem ser separadas através do uso de `;`.
+
+A atribuição de variáveis é feita com o sinal `=`. Ao contrário do `BASH`, você pode ter espaços ao redor do `=`. Um aspecto interessante do **AWK** é que as variáveis não necessitam ser definidas quanto ao tipo, por exemplo, string ou numérico. Isso significa que você não precisa dizer ao **AWK** antecipadamente se uma variável vai conter um número, ou uma string, etc. Tudo é armazenado como uma string, mas quando usado em um contexto numérico, se fizer sentido, a variável será tratada como um número. Assim, você não precisa se preocupar muito com a definição do tipo de variável.
+
+Se um valor ainda não tiver sido atribuído a uma variável, mas for usado em um contexto numérico, o valor será considerado 0; se usado em um contexto de string, seu valor é considerado a string vazia "".
+
+*** Estruturas de controle - FOR
+
+As estruturas de fluxo estão presentes em **AWK** e possuem uma sintaxe bastante similar à da linguagem C. Por exemplo, a estruturação de iteração `FOR` apresenta a seguinte sintaxe:
+
+```bash
+ for(initialization; condition; increment/decrement)
+
+```
+
+Por exemplo, vamos representar a iteração de uma seqência de números de 1 a 10, incrementados um-a-um:
+
+```bash
+ for(i=1;i<=10;i++)
+
+```
+
+Observe que o ++ significa adicionar um à variável à minha esquerda, no caso, a variável `i`.
+
+Você também pode incrementar ou diminuir em quantidades maiores. O que você acha que isso faria?
+
+```bash
+$ awk '{for(i=5; i<=25; i+=5) print i}' 
+
+```
+
+*** Estruturas de controle - IF e ELSE
+
+Abaixo é demonstrado o uso de IF e ELSE e como eles podem ser colocados juntos para fazer uma construção do tipo IF-ELSE. Ao mesmo tempo, será demonstrado como os resultados podem ser redirecionados para arquivos dentro do próprio script. Para tal, é utilizada praticamente a mesma sintaxe que a do Shell. Imagine que queremos imprimir cada um dos tipos de elementos gênicos em um arquivo diferente. Isso poderia ser feito da seguinte maneira:
+
+```bash
+
+awk '{ if($3 == "CDS") {
+      print $0 > "CDS.txt"
+     } else if($3 == "exon") {
+      print $0 > "exon.txt"
+     } else if($3 == "start_codon") {
+      print $0 > "start_codon.txt"
+     } else {
+      print $0 > "stop_codon.txt"
+     }
+    }' unix_lesson/reference_data/chr1-hg19_genes.gtf
+
+```
+
+## Funções
+
+**Operadores aritméticos:**
+|      Operador    |            Descrição          |
+|:----------------:|:-----------------------------:|
+|         +        |             Adição            |
+|         -        |            Subtração          |
+|         /        |             Divisão           |
+|         *        |          Multiplicação        |
+|     **   ou ^    |          Exponenciação        |
+|         +x       |     Converte para numérico    |
+|                  |                               |
+|         =        |     Atribuição (variáveis)    |
+
+**Funções matemáticas**
+|     Função    |            Descrição           |
+|:-------------:|:------------------------------:|
+|       log     |               Log              |
+|      rand     |     Número aleatório (0, 1)    |
+|      sqrt     |          Raiz-quadrada         |
+|       int     |             Integer            |
+
+
+Na tabela abaixo são mostradas algumas das funções nativas de **AWK** para manipulação de strings:
+
+|      Função    |                         Sintaxe                       |                    Descrição                  |
+|:--------------:|:-----------------------------------------------------:|:---------------------------------------------:|
+|      printf    |            printf(format,   expression1, …)           |          Imprime a string   formatada         |
+|       gsub     |         gsub(regexp, replacement [,   target])        |              Substitui substrings             |
+|      index     |                     index(in, find)                   |           Retorna a posição do match          |
+|      length    |                    length([string])                   |              Número de caracteres             |
+|      split     |     split(string, array [, fieldsep [,   seps ] ])    |     Divide a string em   partes, separador    |
+|     sprintf    |            sprintf(format,   expression1, …)          |                Formata a string               |
+|      substr    |           substr(string,   start [, length ])         |      Divide a string em   partes, posição     |
+|     tolower    |                     tolower(string)                   |                Todas minúsculas               |
+|     toupper    |                     toupper(string)                   |                Todas maiúsculas               |
+
+
+
+
 
