@@ -223,6 +223,66 @@ chr1    unknown exon    60297835        60297885        .       +       .       
 chr1    unknown CDS     60299077        60299209        .       +       0       gene_id "HOOK1"; gene_name "HOOK1"; p_id "P21131"; transcript_id "NM_015888"; tss_id "TSS7831";
 </pre>
 
+#### O Sinal de Adição `+`
+
+O símbolo `+` corresponde a uma ou mais repetições do caractere anterior. Por exemplo, a expressão regular `e.+n` significa: a letra minúscula `e`, seguida por pelo menos um caractere, seguido do caractere minúsculo `n`.
+
+```bash
+$ awk '$10 ~ /OR.+5/' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+
+<pre>
+chr1    unknown CDS     69091   70005   .       +       0       gene_id "OR4F5"; gene_name "OR4F5"; p_id "P9488"; transcript_id "NM_001005484"; tss_id "TSS13903";
+chr1    unknown exon    69091   70008   .       +       .       gene_id "OR4F5"; gene_name "OR4F5"; p_id "P9488"; transcript_id "NM_001005484"; tss_id "TSS13903";
+chr1    unknown start_codon     69091   69093   .       +       .       gene_id "OR4F5"; gene_name "OR4F5"; p_id "P9488"; transcript_id "NM_001005484"; tss_id "TSS13903";
+chr1    unknown stop_codon      70006   70008   .       +       .       gene_id "OR4F5"; gene_name "OR4F5"; p_id "P9488"; transcript_id "NM_001005484"; tss_id "TSS13903";
+chr1    unknown exon    12567300        12567451        .       +       .       gene_id "SNORA59B"; gene_name "SNORA59B"; transcript_id "NR_003022"; tss_id "TSS2762";
+chr1    unknown exon    12567300        12567451        .       +       .       gene_id "SNORA59A"; gene_name "SNORA59A"; transcript_id "NR_003025"; tss_id "TSS2762";
+chr1    unknown exon    31441010        31441084        .       -       .       gene_id "SNORD85"; gene_name "SNORD85"; transcript_id "NR_003066"; tss_id "TSS1946";
+chr1    unknown exon    40033046        40033182        .       -       .       gene_id "SNORA55"; gene_name "SNORA55"; transcript_id "NR_002983"; tss_id "TSS22213";
+chr1    unknown exon    45241537        45241610        .       +       .       gene_id "SNORD55"; gene_name "SNORD55"; transcript_id "NR_000015"; tss_id "TSS14959";
+chr1    unknown exon    76252757        76252834        .       +       .       gene_id "SNORD45C"; gene_name "SNORD45C"; transcript_id "NR_003042"; tss_id "TSS25302";
+</pre>
+
+#### O símbolo de interrogação `?`
+
+O metacaractere `?` faz o caractere anterior ser opcional. Esse símbolo corresponde a zero ou uma ocorrência do caractere anterior. Por exemplo, a expressão regular `[chr]?1` significa: A string `chr` opcional, seguida do caractere `1`.
+
+```bash
+$ awk '$1 ~ /[chr]?1/' unix_lesson/genomics_data/Encode-hesc-Nanog.bed | head
+
+```
+<pre>
+chr11   92283662        92283923
+chr16   9077536 9077828
+chr15   71496031        71496283
+chr12   130255896       130256146
+chr14   42805182        42805428
+chr1    203488575       203488821
+chr11   97727752        97727972
+chr11   120516471       120516755
+chr16   72756525        72756788
+chr14   59235755        59236078
+</pre>
+
+```bash
+$ sed 's/chr//g' unix_lesson/genomics_data/Encode-hesc-Nanog.bed | awk '$1 ~ /[chr]?1/' | head
+
+```
+<pre>
+11      92283662        92283923
+16      9077536 9077828
+15      71496031        71496283
+12      130255896       130256146
+14      42805182        42805428
+1       203488575       203488821
+11      97727752        97727972
+11      120516471       120516755
+16      72756525        72756788
+14      59235755        59236078
+</pre>
+
 
 #### O Asterisco `*`
 
@@ -234,7 +294,6 @@ O símbolo `*` pode ser usado junto do metacaractere `.` para encontrar qualquer
 $ egrep 'LOC.*' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
 
 ```
-
 <pre>
 chr1    unknown exon    136698  136756  .       -       .       gene_id "LOC729737"; gene_name "LOC729737"; transcript_id "NR_039983"; tss_id "TSS17868";
 chr1    unknown exon    136806  136854  .       -       .       gene_id "LOC729737"; gene_name "LOC729737"; transcript_id "NR_039983"; tss_id "TSS17868";
@@ -247,7 +306,6 @@ chr1    unknown exon    323892  324060  .       +       .       gene_id "LOC1001
 chr1    unknown exon    324288  324345  .       +       .       gene_id "LOC100132287"; gene_name "LOC100132287"; transcript_id "NR_028322"; tss_id "TSS11868";
 chr1    unknown exon    324288  324345  .       +       .       gene_id "LOC100132062"; gene_name "LOC100132062"; transcript_id "NR_028325"; tss_id "TSS11868";
 </pre>
-
 
 **Exercício 1**
 
