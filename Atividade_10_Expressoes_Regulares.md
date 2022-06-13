@@ -326,7 +326,6 @@ $ awk '/"OR"*/' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
 
 ***
 
-
 ### Metacaracteres de posição (Âncoras)
 
 |     Metacaracter    |         Nome       |            Posicionamento           |
@@ -334,4 +333,221 @@ $ awk '/"OR"*/' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
 |           ^         |     Circunflexo    |     Representa o início de linha    |
 |           $         |        Cifrão      |      Representa o final da linha    |
 
+Os metacaracteres de posição (ou âncoras) nos permitem verificar se o padrão encontra-se no início ou no final da linha ou campo. As âncoras podem ser de dois tipos: O primeiro tipo é o acento circunflexo `^`, que verifica se o padrão encontrado está no início da linha, e o segundo tipo é o cifrão `$`, que verifica se o padrão encontrado é o último naquela linha ou campo.
 
+#### O Acento Circunflexo `^`
+
+O metacaracter `^` é usado para verificar a posição do padrão, neste caso, se ele ocorre no início da linha. Se usarmos a expressão regular `^a` e `a` for o primeiro caractere na linha contendo `abc`, haverá a coincidência com `a`. Mas se aplicarmos a expressão regular `^b` na mesma string, ela não coincidirá. Isso ocorre porque, no segundo exemplo, `b` não é o caractere inicial. Vamos verificar outra expressão regular, `^(C|c)hr` que significa: o caractere maiúsculo `C` ou o caractere minúsculo `C` que encontra-se no início da linha ou campo, seguido pelos caracteres minúsculos `h` e `r`.
+
+Teste e verifique a diferença entre os dois comandos abaixo, no qual em um deles, usamos o `^` antes de `bin`: `^bin`.
+
+```bash
+$ grep bin /etc/passwd
+
+```
+<pre>
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+</pre>
+
+```bash
+$ grep ^bin /etc/passwd
+
+```
+<pre>
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+</pre>
+
+#### O Cifrão `$`
+
+O símbolo de cifrão `$` é usado para verificar se o padrão encontrado está ao final da linha (última sequência de caracteres). Por exemplo, a expressão regular `bash$` significa: busque por todas as linhas terminadas pela string `bash`.
+
+```bash
+$ grep bash$ /etc/passwd
+
+```
+<pre>
+root:x:0:0:root:/root:/bin/bash
+(...)
+</pre>
+
+
+> O uso da expressão `^$` é muito útil para identificar linhas vazias em um arquivo de texto. Veja o exemplo abaixo:
+
+```bash
+$ grep -n '^$' unix_lesson/other/chars.txt
+
+```
+<pre>
+8:
+</pre>
+
+### Formas resumidas ou alternativas de se representar classes de caracteres:
+
+|     Classes de Caracteres    |                Definição               |
+|:----------------------------:|:--------------------------------------:|
+|           [:alnum:]          |         Caracteres alfanuméricos       |
+|           [:alpha:]          |          Caracteres alfabéticos        |
+|           [:blank:]          |           Espaços e tabulações         |
+|           [:cntrl:]          |          Caracteres de controle        |
+|           [:digit:]          |           Caracteres numéricos         |
+|           [:graph:]          |     Caracteres impressos e visíveis    |
+|           [:lower:]          |         Caracteres em minúsculas       |
+|           [:print:]          |           Caracteres impressos         |
+|           [:punct:]          |         Caracteres de pontuação        |
+|           [:space:]          |           Caracteres de espaço         |
+|           [:upper:]          |         Caracteres em maiúsculas       |
+|           [:xdigit:]         |     Caracteres dígitos hexadecimais    |
+
+As expressões regulares fornecem abreviações para conjuntos de caracteres comumente usados, que oferecem atalhos convenientes para expressões regulares comumente usadas. As abreviações são as seguintes:
+
+|     Operadores    |                    Definição                  |
+|:-----------------:|:---------------------------------------------:|
+|         \s        |              Caracteres de espaço             |
+|         \S        |         Caracteres que não sejam espaço       |
+|         \w        |       Caracteres que constituem palavras      |
+|         \W        |     Caracteres que não constituem palavras    |
+|         \<        |          Coincide no início da palavra        |
+|         \>        |          Coincide ao final da palavra         |
+|         \y        |            Caracteres em minúsculas           |
+|         \B        |              Caracteres impressos             |
+|         \d        |              Caracteres numéricos             |
+|         \D        |            Caracteres não numéricos           |
+
+Observe que uma mesma classe de caracteres pode ser representada de diferentes maneiras, sendo concisão e legibilidade as principais diferenças entre eles. Entretanto, fique atento, pois nem todos os metacaracteres são aceitos em todos os comandos ou linguagens. Podem haver diferenças entre os padrões (básico e extendido), implementações (por exemplo, GNU grep e BSD Grep) e 
+
+
+**Exercício 2**
+
+Teste os comandos abaixo e compare os resultados. As buscas resultam em resultados idênticos?
+
+```bash
+$ egrep '[[:digit:]]{6,}[[:blank:]]' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+$ egrep '[0-9]{6,}[[:blank:]]' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+$ grep -P '\d{6,}\s' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+> A opção `-P` habilita o uso da sintaxe da linguagem Perl para expressões regulares, caso estivesse desabilitada, o comando `grep` não reconheceria o metacaracter `\d`.
+
+***
+
+### Grupos de Caracteres
+
+Grupo de caracteres é um grupo de sub-padrão que é escrito dentro de parênteses `(...)`. Como mostrado anteriormente, se colocaramos um quantificador depois de um caractere, ele irá repetir o caractere anterior. Mas se colocarmos um quantificador depois de um grupo de caracteres, ele irá repetir todo o conjunto. Por exemplo, a expressão regular `(ab)*` corresponde a zero ou mais repetições dos caracteres "ab". Nós também podemos usar o metacaractere de alternância `|` dentro de um grupo de caracteres. Por exemplo, a expressão regular `(t|g|p)_id` significa: caractere minúsculo `t`, `g` ou `p`, seguido dos caracteres `_`, `i` e `d`.
+
+No exemplo abaixo, desejamos obter todos aqueles genes cujos nomes sejam compostos por duas ou mais sequências `{2,}` de uma letra `[A-Z]` e um número `[0-9]`:
+
+```bash
+$ egrep '([A-Z][0-9]){2,}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+
+<pre>
+chr1    unknown CDS     69091   70005   .       +       0       gene_id "OR4F5"; gene_name "OR4F5"; p_id "P9488"; transcript_id "NM_001005484"; tss_id "TSS13903";
+chr1    unknown exon    69091   70008   .       +       .       gene_id "OR4F5"; gene_name "OR4F5"; p_id "P9488"; transcript_id "NM_001005484"; tss_id "TSS13903";
+chr1    unknown start_codon     69091   69093   .       +       .       gene_id "OR4F5"; gene_name "OR4F5"; p_id "P9488"; transcript_id "NM_001005484"; tss_id "TSS13903";
+chr1    unknown stop_codon      70006   70008   .       +       .       gene_id "OR4F5"; gene_name "OR4F5"; p_id "P9488"; transcript_id "NM_001005484"; tss_id "TSS13903";
+chr1    unknown CDS     367659  368594  .       +       0       gene_id "OR4F16"; gene_name "OR4F16"; p_id "P1573"; transcript_id "NM_001005277"; tss_id "TSS4765";
+chr1    unknown CDS     367659  368594  .       +       0       gene_id "OR4F29"; gene_name "OR4F29"; p_id "P1573"; transcript_id "NM_001005221"; tss_id "TSS4765";
+chr1    unknown CDS     367659  368594  .       +       0       gene_id "OR4F3"; gene_name "OR4F3"; p_id "P1573"; transcript_id "NM_001005224"; tss_id "TSS4765";
+chr1    unknown exon    367659  368597  .       +       .       gene_id "OR4F16"; gene_name "OR4F16"; p_id "P1573"; transcript_id "NM_001005277"; tss_id "TSS4765";
+chr1    unknown exon    367659  368597  .       +       .       gene_id "OR4F29"; gene_name "OR4F29"; p_id "P1573"; transcript_id "NM_001005221"; tss_id "TSS4765";
+chr1    unknown exon    367659  368597  .       +       .       gene_id "OR4F3"; gene_name "OR4F3"; p_id "P1573"; transcript_id "NM_001005224"; tss_id "TSS4765";
+</pre>
+
+E se desejássemos aqueles que, além do padrão, não possuem a letra `O`?
+
+```bash
+$ egrep '[^O]([A-Z][0-9]){2,}' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+<pre>
+chr1    unknown exon    1189292 1190867 .       -       .       gene_id "UBE2J2"; gene_name "UBE2J2"; p_id "P12331"; transcript_id "NM_058167"; tss_id "TSS24202";
+chr1    unknown exon    1189292 1190867 .       -       .       gene_id "UBE2J2"; gene_name "UBE2J2"; p_id "P12898"; transcript_id "NM_194315"; tss_id "TSS24202";
+chr1    unknown exon    1189292 1190867 .       -       .       gene_id "UBE2J2"; gene_name "UBE2J2"; p_id "P27115"; transcript_id "NM_194458"; tss_id "TSS24202";
+chr1    unknown exon    1189292 1190867 .       -       .       gene_id "UBE2J2"; gene_name "UBE2J2"; p_id "P27115"; transcript_id "NM_194457"; tss_id "TSS24202";
+chr1    unknown stop_codon      1190583 1190585 .       -       .       gene_id "UBE2J2"; gene_name "UBE2J2"; p_id "P12331"; transcript_id "NM_058167"; tss_id "TSS24202";
+chr1    unknown stop_codon      1190583 1190585 .       -       .       gene_id "UBE2J2"; gene_name "UBE2J2"; p_id "P12898"; transcript_id "NM_194315"; tss_id "TSS24202";
+chr1    unknown stop_codon      1190583 1190585 .       -       .       gene_id "UBE2J2"; gene_name "UBE2J2"; p_id "P27115"; transcript_id "NM_194458"; tss_id "TSS24202";
+chr1    unknown stop_codon      1190583 1190585 .       -       .       gene_id "UBE2J2"; gene_name "UBE2J2"; p_id "P27115"; transcript_id "NM_194457"; tss_id "TSS24202";
+chr1    unknown CDS     1190586 1190867 .       -       0       gene_id "UBE2J2"; gene_name "UBE2J2"; p_id "P12331"; transcript_id "NM_058167"; tss_id "TSS24202";
+chr1    unknown CDS     1190586 1190867 .       -       0       gene_id "UBE2J2"; gene_name "UBE2J2"; p_id "P12898"; transcript_id "NM_194315"; tss_id "TSS24202";
+</pre>
+
+
+#### Alternância
+
+Em expressões regulares, a barra vertical `|` é usada para definir alternância. Alternância é como uma condição entre múltiplas expressões. Dependendo do contexto, o significado de `|` pode assumir diferentes funções. Quando utilizada entre parênteses `( | )`, o símbolo `|` denota um caracter ou outro, por exemplo, na expressão `(c|f|h)at` há coincidência do padrão com as palavras `cat`, `fat` e `hat`, pois o primeiro caracter pode corresponder às letras `c`, `f` e `h`. Entretanto, se a barra `|` for utilizada fora dos parênteses, ela passa a significar um padrão ou outro, por exemplo, na expressão `gene|transcript` haverá coincidência com as linhas ou campos que possuírem as strings `gene` ou `transcript`. Já a expressão `(G|g)ene|(T|t)ranscript` coincide com as mesmas strings do exemplo anterior, independente destas iniciarem com uma letra maiúscula ou minúscula.
+
+
+```bash
+$ egrep 'TNF|TLR' unix_lesson/reference_data/chr1-hg19_genes.gtf | head
+
+```
+<pre>
+chr1    unknown exon    1138888 1139340 .       -       .       gene_id "TNFRSF18"; gene_name "TNFRSF18"; p_id "P6423"; transcript_id "NM_148901"; tss_id "TSS27102";
+chr1    unknown exon    1138888 1139348 .       -       .       gene_id "TNFRSF18"; gene_name "TNFRSF18"; p_id "P6568"; transcript_id "NM_004195"; tss_id "TSS27102";
+chr1    unknown exon    1138888 1139348 .       -       .       gene_id "TNFRSF18"; gene_name "TNFRSF18"; p_id "P24339"; transcript_id "NM_148902"; tss_id "TSS27102";
+chr1    unknown stop_codon      1138971 1138973 .       -       .       gene_id "TNFRSF18"; gene_name "TNFRSF18"; p_id "P6423"; transcript_id "NM_148901"; tss_id "TSS27102";
+chr1    unknown CDS     1138974 1139340 .       -       1       gene_id "TNFRSF18"; gene_name "TNFRSF18"; p_id "P6423"; transcript_id "NM_148901"; tss_id "TSS27102";
+chr1    unknown stop_codon      1139224 1139226 .       -       .       gene_id "TNFRSF18"; gene_name "TNFRSF18"; p_id "P6568"; transcript_id "NM_004195"; tss_id "TSS27102";
+chr1    unknown stop_codon      1139224 1139226 .       -       .       gene_id "TNFRSF18"; gene_name "TNFRSF18"; p_id "P24339"; transcript_id "NM_148902"; tss_id "TSS27102";
+chr1    unknown CDS     1139227 1139348 .       -       2       gene_id "TNFRSF18"; gene_name "TNFRSF18"; p_id "P6568"; transcript_id "NM_004195"; tss_id "TSS27102";
+chr1    unknown CDS     1139227 1139348 .       -       2       gene_id "TNFRSF18"; gene_name "TNFRSF18"; p_id "P24339"; transcript_id "NM_148902"; tss_id "TSS27102";
+chr1    unknown CDS     1139414 1139616 .       -       1       gene_id "TNFRSF18"; gene_name "TNFRSF18"; p_id "P6568"; transcript_id "NM_004195"; tss_id "TSS27102";
+</pre>
+
+```bash
+$ egrep 'TNF|TLR' unix_lesson/reference_data/chr1-hg19_genes.gtf | tail
+
+```
+<pre>
+chr1    unknown start_codon     173176313       173176315       .       -       .       gene_id "TNFSF4"; gene_name "TNFSF4"; p_id "P15167"; transcript_id "NM_003326"; tss_id "TSS10422";
+chr1    unknown exon    223282748       223286377       .       -       .       gene_id "TLR5"; gene_name "TLR5"; p_id "P18500"; transcript_id "NM_003268"; tss_id "TSS5326";
+chr1    unknown stop_codon      223283797       223283799       .       -       .       gene_id "TLR5"; gene_name "TLR5"; p_id "P18500"; transcript_id "NM_003268"; tss_id "TSS5326";
+chr1    unknown CDS     223283800       223286373       .       -       0       gene_id "TLR5"; gene_name "TLR5"; p_id "P18500"; transcript_id "NM_003268"; tss_id "TSS5326";
+chr1    unknown start_codon     223286371       223286373       .       -       .       gene_id "TLR5"; gene_name "TLR5"; p_id "P18500"; transcript_id "NM_003268"; tss_id "TSS5326";
+chr1    unknown exon    223305817       223305981       .       -       .       gene_id "TLR5"; gene_name "TLR5"; p_id "P18500"; transcript_id "NM_003268"; tss_id "TSS5326";
+chr1    unknown exon    223308024       223308206       .       -       .       gene_id "TLR5"; gene_name "TLR5"; p_id "P18500"; transcript_id "NM_003268"; tss_id "TSS5326";
+chr1    unknown exon    223310520       223310605       .       -       .       gene_id "TLR5"; gene_name "TLR5"; p_id "P18500"; transcript_id "NM_003268"; tss_id "TSS5326";
+chr1    unknown exon    223314990       223315105       .       -       .       gene_id "TLR5"; gene_name "TLR5"; p_id "P18500"; transcript_id "NM_003268"; tss_id "TSS5326";
+chr1    unknown exon    223316538       223316624       .       -       .       gene_id "TLR5"; gene_name "TLR5"; p_id "P18500"; transcript_id "NM_003268"; tss_id "TSS5326";
+</pre>
+
+
+### Grupos de Captura
+
+As expressões regulares também nos permitem extrair informações para processamento posterior. Para realizar tal ação, também utilzamos os parênteses `()` que nos permetirá capturar um subpadrão dentro de um par de parênteses. O uso de grupos de captura nos permitem processar informações que possuem uma estrutura fixa, tais como, números de telefone, endereços de e-mail, CPFs, extensões de arquivos, dentre outros. 
+
+Caso você desejasse capturar apenas o nome base (ou prefixo) de um arquivo, tal ação seria possível através da expressão: `^([:alphanum:]+)\.pdf$`. Neste exemplo, ainda que toda a expressão fosse utilizada para a busca - excluindo os arquivos que não tivessem a extensão `.pdf`, apenas seria retornada a string contida dentro dos parênteses. Esse trecho do padrão retornado é denominado grupo de captura.
+
+É possível capturar mais de um grupo a partir de uma mesma expressão através do uso de grupos de captura aninhados. A sequência dos resultados retornados é definida pela ordem em que os grupos de captura são definidos (do mais exterior para o mais interior). Retomando o exemplo de um nome de arquivo composto, por exemplo, por letras e depois números, seria possível determinar dois grupos de captura: `^([:alpha:]+([:digit:]+))'\.pdf$`, onde o primeiro grupo de captura retornaria o padrão contendo letras e números, exceto a extensão, e o segundo grupo de captura retornaria apenas os números contidos ao final do prefixo do nome do arquivo.
+
+Nos exemplos a seguir, iremos utilizar a linguagem `Perl` para capturar os grupos de caracteres de interesse. As duas linhas de comando retornam o mesmo resultado, o `nome do usuário` e o `id do usuário` no servidor Darwin.
+
+```bash
+$ cat /etc/passwd | perl -n -e'/^([a-z0-9]*):x:([0-9]*).*/ && print $1, "-", $2, "\n"'
+
+$ cat /etc/passwd | perl -n -e'/^(\w*):x:(\d*).*/ && print $1, "-", $2, "\n"'
+```
+
+> Em ambas expressões, buscamos capturar a primeira cadeia de caracteres alfanuméricos que representa o nome do usuário (username), seguida pelos caracteres `:x:`, para então recuperar a cadeira de caracteres numéricos que correspondem ao identificador do usuário (uid).
+
+
+**Exercício 3**
+
+**DESAFIO**
+
+A partir do arquivo `~/unix_lesson/reference_data/chr1-hg19_genes.gtf`, construa uma expressão regular para capturar as seguintes informações:
+
+1. Cromossomo (1ª coluna)
+2. Elemento gênico (3ª coluna)
+3. Posição de início (4ª coluna)
+4. Posição final (5ª coluna)
+5. Nome do gene (sem aspas e ;) (10ª coluna)
+
+***
