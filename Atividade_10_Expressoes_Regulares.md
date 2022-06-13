@@ -538,9 +538,8 @@ $ cat /etc/passwd | perl -n -e'/^(\w*):x:(\d*).*/ && print $1, "-", $2, "\n"'
 > Em ambas expressões, buscamos capturar a primeira cadeia de caracteres alfanuméricos que representa o nome do usuário (username), seguida pelos caracteres `:x:`, para então recuperar a cadeira de caracteres numéricos que correspondem ao identificador do usuário (uid).
 
 
-**Exercício 3**
 
-**DESAFIO**
+**Exercício 3**
 
 A partir do arquivo `~/unix_lesson/reference_data/chr1-hg19_genes.gtf`, construa uma expressão regular para capturar as seguintes informações:
 
