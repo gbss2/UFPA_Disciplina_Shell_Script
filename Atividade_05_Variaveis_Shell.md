@@ -111,7 +111,7 @@ $ file=Mov10_oe_1.subset.fq
 Após pressionar <kbd>Enter</kbd>, você deve voltar ao prompt de comando. Vamos verificar o que está armazenado dentro de `file` usando o comando `echo`:
 
 ```bash
-$ eco $file
+$ echo $file
 ```
 
 Agora vamos usar a variável `file` como _input_ (entrada) para o comando `wc`:
