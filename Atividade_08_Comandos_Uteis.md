@@ -360,7 +360,7 @@ Quantas replicatas temos para cada tipo celular? São 3 replicatas. Note que pri
 
 **Exercício 2**
 
-No exemplo anterior, devido ao tamho do arquivo, não era difícil calcular o número de elementos repetidos visualemente, mas para arquivos um pouco maiores, essa tarefa se torna cada vez mais demorada e propensa a erros. Por isso, o ideal é utilizar a "caixa de ferramentas" que o GNU/Linux nos proporciona. 
+No exemplo anterior, devido ao tamanho do arquivo, não era difícil calcular o número de elementos repetidos visualmente, mas para arquivos um pouco maiores, essa tarefa se torna cada vez mais demorada e propensa a erros. Por isso, o ideal é utilizar a "caixa de ferramentas" que o GNU/Linux nos proporciona. 
 
 Neste exercício, sua tarefa é contar o número de elementos gênicos presentes em cada cromossomo no arquivo `~/unix_lesson/genomics_data/Encode-hesc-Nanog.bed`. 
 
